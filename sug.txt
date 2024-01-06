@@ -1,0 +1,117 @@
+ <ul
+        className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+        id="accordionSidebar"
+      >
+        {/* Sidebar - Brand */}
+        <a
+          className="sidebar-brand d-flex align-items-center justify-content-center"
+          href="/dashboard"
+        >
+          <div className="sidebar-brand-icon rotate-n-15">
+            <i className="fas fa-laugh-wink" />
+          </div>
+          <div className="sidebar-brand-text mx-3">
+            K-Bright<sup>data </sup>
+          </div>
+        </a>
+        {/* Divider */}
+        <hr className="sidebar-divider my-0" />
+        {/* Nav Item - Dashboard */}
+        <div className="sidebar-heading">Quick view</div>
+
+        {/* <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar"> */}
+
+        {/* <hr className="sidebar-divider my-0" /> */}
+
+        <li className="nav-item">
+          <a className="nav-link" href="/dashboard">
+            <i className="fas fa-fw fa-user-alt" />
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="/performance">
+            <i className="fas fa-chart-simple"></i>
+            <span>Performance</span>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="/profile">
+            <i className="fas fa-file-invoice-dollar"></i>
+            <span>Account</span>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="card.html">
+            <i className="fas fa-credit-card"></i>
+            <span>Card</span>
+          </a>
+        </li>
+        {/* // </ul> */}
+        {/* Divider */}
+        <hr className="sidebar-divider" />
+        {/* Heading */}
+        <div className="sidebar-heading">All Transactions</div>
+        {/* Nav Item - Pages Collapse Menu */}
+        <li className="nav-item">
+          <a className="nav-link collapsed" href="#">
+            <i className="fa-solid fa-hashtag"></i>
+            <span>Soft USSD POS</span>
+          </a>
+        </li>
+
+        <li className="nav-item">
+          <a className="nav-link collapsed" href="#">
+            <i className="fa-solid fa-money-bill-transfer"></i>
+            <span>Bank Transfer</span>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link collapsed" href="#">
+            <i className="fa-solid fa-wallet"></i>
+            <span>Wallet Transfer</span>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link collapsed" href="#">
+            <i className="fas fa-fw fa-phone" />
+            <span>Airtime Subscription</span>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link collapsed" href="#">
+            <i className="fas fa-fw fa-wifi" />
+            <span>Data Subscription</span>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link collapsed" href="#">
+            <i className="fa-solid fa-landmark"></i>
+            <span>Loan</span>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link collapsed" href="#">
+            <i className="fas fa-fw fa-wrench" />
+            <span>POS</span>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link collapsed" href="#">
+            <i className="fa-solid fa-network-wired"></i>
+            <span>Network</span>
+          </a>
+        </li>
+        <br />
+        <br />
+        <li className="nav-item">
+          <a className="nav-link collapsed" href="#">
+            <i className="fa-solid fa-arrow-right-from-bracket"></i>
+            <span>Logout</span>
+          </a>
+        </li>
+
+        {/* Divider */}
+        <hr className="sidebar-divider d-none d-md-block" />
+        {/* Sidebar Toggler (Sidebar) */}
+      </ul>

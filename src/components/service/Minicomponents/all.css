@@ -1,0 +1,73 @@
+/* Profile.css */
+
+.profile-container {
+  padding: 0px;
+}
+
+.profile-header {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.profile-card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.profile-info {
+  padding: 10px;
+}
+
+.first-col-md {
+  padding: 40px;
+  border-radius: 10px;
+  max-width: 400px;
+  height: 53vh;
+  margin: 13px;
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(77, 77, 140, 0.439);
+}
+.second-col-md {
+  padding: 40px;
+  border-radius: 10px;
+  max-width: 700px;
+  text-align: center;
+  height: 53vh;
+  margin: 13px;
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(77, 77, 140, 0.439);
+}
+
+.third-col-md {
+  padding: 50px;
+  border-radius: 10px;
+  max-width: 480px;
+  height: auto;
+  margin: 13px;
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(77, 77, 140, 0.439);
+}
+.btn-cta-3 {
+  margin-top: 10px;
+  width: 100%;
+  height: 45px;
+  border-radius: 10px;
+  border: none;
+  background-color: #2f29ef;
+  color: #ffffff;
+  font-size: 16px;
+  padding: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.btn-cta-3:hover {
+  background-color: #ddd;
+  color: #000;
+  /* color: ; */
+}
+
+
