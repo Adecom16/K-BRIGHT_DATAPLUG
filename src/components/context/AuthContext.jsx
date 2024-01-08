@@ -1,72 +1,150 @@
-
-import { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
+import { createContext, useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+// import axios from 'axios';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+     const [user, setUser] = useState(null);
+     const [loading, setLoading] = useState(false);
+     const navigate = useNavigate();
 
-  const login = (userData) => {
-    setUser(userData);
-    localStorage.setItem("userToken", userData.token);
-  };
+     /**
+      * --------------------
+      * User Route
+      * --------------------
+      */
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("userToken");
-  };
+     useEffect(() => {
+          const fetchUserProfile = async () => {
+               const storedToken = JSON.parse(
+                    localStorage.getItem('kbrightdataplug')
+               );
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      const storedToken = localStorage.getItem("userToken");
+               if (storedToken) {
+                    try {
+                         const response = await fetch(
+                              'https://wirelesspay.ng/api/v1/user/get-profile',
+                              {
+                                   headers: {
+                                        Authorization: `Bearer ${storedToken}`,
+                                        'Content-Type': 'application/json',
+                                   },
+                              }
+                         );
 
-      if (storedToken) {
-        try {
-          const response = await axios.get(
-            "https://wirelesspay.ng/api/v1/user/get-profile",
-            {
-              headers: {
-                Authorization: `Bearer ${storedToken}`,
-              },
-            }
-          );
+                         const userData = await response.json();
 
-          const userData = response.data;
-          login(userData);
-        } catch (error) {
-          console.error("Error fetching user profile:", error);
-          if (error.response && error.response.status === 401) {
-            // Handle token expiration or invalid token
-            logout();
+                         setUser(userData);
+                    } catch (error) {
+                         console.error('Error fetching user profile:', error);
+                         setLoading(false);
+                    }
+               } else {
+                    setLoading(false);
+                    navigate('/login');
+               }
+          };
+
+          fetchUserProfile();
+     }, [navigate]);
+
+     /**
+      * --------------------
+      * Signup Route
+      * --------------------
+      */
+     const signup = async (signupData) => {
+          try {
+               setLoading(true);
+
+               const response = await fetch(
+                    'https://wirelesspay.ng/api/v1/register_without_bvn',
+                    {
+                         method: 'POST',
+                         body: JSON.stringify(signupData),
+                         headers: {
+                              'Content-Type': 'application/json',
+                         },
+                    }
+               );
+
+               const data = await response.json();
+
+               if (data.status === 'failed') {
+                    alert(data.error);
+                    return setLoading(false);
+               }
+
+               setLoading(false);
+               navigate('login');
+          } catch (err) {
+               console.log(err);
           }
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        setLoading(false);
-      }
-    };
+     };
 
-    fetchUserProfile();
-  }, []); // Empty dependency array to run the effect only once on mount
+     /**
+      * --------------------
+      * Login Route
+      * --------------------
+      */
+     const login = async (loginData) => {
+          try {
+               setLoading(true);
 
-  return (
-    <AuthContext.Provider value={{ user, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+               const response = await fetch(
+                    'https://wirelesspay.ng/api/v1/login',
+                    {
+                         method: 'POST',
+                         body: JSON.stringify(loginData),
+                         headers: {
+                              'Content-Type': 'application/json',
+                         },
+                    }
+               );
+
+               const data = await response.json();
+
+               if (data.status === 'failed') {
+                    alert(data.error);
+                    return setLoading(false);
+               }
+               // setting token to localstorage
+               localStorage.setItem(
+                    'kbrightdataplug',
+                    JSON.stringify(data.access_token)
+               );
+
+               setLoading(false);
+               navigate('/dashboard');
+          } catch (err) {
+               console.log(err);
+          }
+     };
+
+     return (
+          <AuthContext.Provider
+               value={{
+                    user,
+                    signup,
+                    loading,
+                    login,
+               }}
+          >
+               {children}
+          </AuthContext.Provider>
+     );
 };
 
 // AuthContext.js
 // ... (your existing code)
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
-};
+     const context = useContext(AuthContext);
 
+     if (!context) {
+          throw new Error('useAuth must be used within an AuthProvider');
+     }
+
+     return context;
+};
