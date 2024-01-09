@@ -36,7 +36,7 @@ function Sidebar() {
 
         <li className="nav-item navhover">
           <a className="nav-link" href="/dashboard">
-            <i class="fa-solid fa-gauge"></i>
+            <i className="fa-solid fa-gauge"></i>
             <span
               style={{
                 color: "white",
@@ -52,7 +52,7 @@ function Sidebar() {
         </li>
         <li className="nav-item navhover">
           <a className="nav-link" href="/performance">
-            <i class="fa-solid fa-chart-column"></i>
+            <i className="fa-solid fa-chart-column"></i>
             <span
               style={{
                 color: "white",
@@ -119,7 +119,7 @@ function Sidebar() {
 
         <li className="nav-item navhover">
           <a className="nav-link collapsed" href="#">
-            <i class="fa-solid fa-bolt"></i>
+            <i className="fa-solid fa-bolt"></i>
             <span
               style={{
                 color: "white",
@@ -136,7 +136,7 @@ function Sidebar() {
 
         <li className="nav-item navhover">
           <a className="nav-link collapsed" href="#">
-            <i class="fa-solid fa-tv"></i>
+            <i className="fa-solid fa-tv"></i>
             <span
               style={{
                 color: "white",

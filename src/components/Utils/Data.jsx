@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -64,41 +63,82 @@ const DataBuyForm = () => {
   const [dataPlan, setDataPlan] = useState("300MB");
   const [network, setNetwork] = useState("mtn");
   const [dataPlans, setDataPlans] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const [networkOptions, setNetworkOptions] = useState([
+    { value: "mtn", label: "MTN" },
+    { value: "etisalat", label: "Etisalat" },
+    { value: "airtel", label: "Airtel" },
+    { value: "glo", label: "Glo" },
+    // Add more networks as needed
+  ]);
+
+  const userToken = localStorage.getItem("kbrightdataplug");
 
   useEffect(() => {
-    // Fetch data plans based on the selected network
     const fetchDataPlans = async () => {
       try {
-        const response = await axios.get(
-          `https://app.wirelesspay.ng/api/v1/user/data/all-data-list?network=${network}`
+        setLoading(true);
+
+        const response = await fetch(
+          `https://wirelesspay.ng/api/v1/user/data/all-data-list`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${userToken}`,
+            },
+          }
         );
-        setDataPlans(response.data.plans);
+
+        if (!response.ok) {
+          throw new Error(
+            `Failed to fetch data plans. Status: ${response.status}`
+          );
+        }
+
+        const data = await response.json();
+        setDataPlans(data.plans);
       } catch (error) {
-        console.error("Error fetching data plans:", error);
+        console.error("Error fetching data plans:", error.message);
+        // Display an error message to the user
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchDataPlans();
-  }, [network]);
+  }, [network, userToken, networkOptions]); // Ad
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // Make API request to purchase data
-      const response = await axios.post(
+      setLoading(true);
+
+      const response = await fetch(
         "https://wirelesspay.ng/api/v1/user/data/buy-sme-data",
         {
-          phoneNumber,
-          dataPlan,
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+          body: JSON.stringify({
+            phoneNumber,
+            dataPlan,
+          }),
         }
       );
 
+      const data = await response.json();
+
       // Handle the response (you may want to display a success message)
-      console.log("Data purchase successful:", response.data);
+      console.log("Data purchase successful:", data);
     } catch (error) {
-      // Handle errors (you may want to display an error message)
-      console.error("Error purchasing data:", error);
+      console.error("Error purchasing data:", error.message);
+      // Display an error message to the user
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -124,8 +164,11 @@ const DataBuyForm = () => {
             value={network}
             onChange={(e) => setNetwork(e.target.value)}
           >
-            <option value="mtn">MTN</option>
-            {/* Add more networks as needed */}
+            {networkOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
         </FormGroup>
         <FormGroup>
@@ -135,14 +178,17 @@ const DataBuyForm = () => {
             value={dataPlan}
             onChange={(e) => setDataPlan(e.target.value)}
           >
-            {dataPlans.map((plan) => (
-              <option key={plan} value={plan}>
-                {plan}
-              </option>
-            ))}
+            {dataPlans &&
+              dataPlans.map((plan) => (
+                <option key={plan} value={plan}>
+                  {plan}
+                </option>
+              ))}
           </select>
         </FormGroup>
-        <Button type="submit">Buy Data</Button>
+        <Button type="submit" disabled={loading}>
+          {loading ? "Buying Data..." : "Buy Data"}
+        </Button>
       </Form>
     </Container>
   );

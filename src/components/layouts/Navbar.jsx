@@ -6,7 +6,8 @@ import { NavLink } from "react-router-dom";
       <div className="Navbar-section">
         <div className="Navbar-logo">
           <a href="/">
-            Tech<span className="x-logo-design">X</span>plorer
+            {/* Tech<span className="x-logo-design">X</span>plorer */}
+            <img className="" src="/logo.png" width={60}/>
           </a>
         </div>
 

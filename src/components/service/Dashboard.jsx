@@ -53,7 +53,7 @@ export default function Dashboard() {
                                                             color: 'gray',
                                                        }}
                                                   >
-                                                       {user?.email}
+                                                       {user?.username}
                                                   </h6>
                                                   <br />
                                                   <h2
@@ -64,7 +64,7 @@ export default function Dashboard() {
                                                             lineHeight: '50px',
                                                        }}
                                                   >
-                                                       {user?.username} 👋
+                                                       {user?.name} 👋
                                                   </h2>
                                                   {/* <br /> */}
                                                   <p>
