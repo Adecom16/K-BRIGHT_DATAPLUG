@@ -85,7 +85,7 @@ function Sidebar() {
           </a>
         </li>
         <li className="nav-item navhover">
-          <a className="nav-link collapsed" href="#">
+          <a className="nav-link collapsed" href="/airtime">
             <i className="fas fa-fw fa-phone" />
             <span
               style={{
@@ -118,7 +118,7 @@ function Sidebar() {
         </li>
 
         <li className="nav-item navhover">
-          <a className="nav-link collapsed" href="#">
+          <a className="nav-link collapsed" href="/electricity">
             <i className="fa-solid fa-bolt"></i>
             <span
               style={{
@@ -135,7 +135,7 @@ function Sidebar() {
         </li>
 
         <li className="nav-item navhover">
-          <a className="nav-link collapsed" href="#">
+          <a className="nav-link collapsed" href="/cabletv">
             <i className="fa-solid fa-tv"></i>
             <span
               style={{

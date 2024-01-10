@@ -70,7 +70,7 @@ const DataBuyForm = () => {
     { value: "etisalat", label: "Etisalat" },
     { value: "airtel", label: "Airtel" },
     { value: "glo", label: "Glo" },
-    // Add more networks as needed
+
   ]);
 
   const userToken = localStorage.getItem("kbrightdataplug");
@@ -100,7 +100,6 @@ const DataBuyForm = () => {
         setDataPlans(data.plans);
       } catch (error) {
         console.error("Error fetching data plans:", error.message);
-        // Display an error message to the user
       } finally {
         setLoading(false);
       }
@@ -132,11 +131,10 @@ const DataBuyForm = () => {
 
       const data = await response.json();
 
-      // Handle the response (you may want to display a success message)
       console.log("Data purchase successful:", data);
     } catch (error) {
       console.error("Error purchasing data:", error.message);
-      // Display an error message to the user
+
     } finally {
       setLoading(false);
     }
