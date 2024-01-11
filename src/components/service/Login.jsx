@@ -1,9 +1,9 @@
 // Login.js
 import { useState } from 'react';
-import { useNavigationType } from 'react-router';
 import AuthenticationUtility from '../Utils/AuthenticationUtility';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
+import { useNavigate } from 'react-router';
 
 // import axios from 'axios';
 // import { useAuth } from '../context/AuthContext';
@@ -13,18 +13,38 @@ const Login = () => {
      const { loading, login } = useState({});
      const [formErrors, setFormErrors] = useState({});
      const {http} = AuthenticationUtility();
-     const navigate = useNavigationType();
      const signIn = useSignIn();
-
+     const navigate = useNavigate();
      const handleChange = (e) => {
           setFormData((data) => ({
                ...data,
                [e.target.name]: e.target.value,
           }));
+
+
      };
 
      const handleLogin = async (e) => {
+
+          console.log(formData);
           e.preventDefault();
+          //  Validating user inputs
+          if (!formData.username) {
+               setFormErrors((form) => ({
+                    ...form,
+                    username: 'Please provide your username',
+               }));
+          }
+
+          if (!formData.password) {
+               setFormErrors((form) => ({
+                    ...form,
+                    password: 'Please provide your password',
+               }));
+
+               return;
+          }
+
           http
       .post("/login", formData)
 
@@ -32,29 +52,50 @@ const Login = () => {
 
         // console.log(res)
         const data = res.data;
-       // console.log(data);
-        if(signIn(
-          {
-              token: data.access_token,
-              tokenType:data.token_type,
-              authState:data.user,
-              expiresIn:data.expires_in,
-            // refreshToken: data.refresh_at ,                   // Only if you are using refreshToken feature
-              //refreshTokenExpireIn: res.data.refreshTokenExpireIn     // Only if you are using refreshToken feature
-          }
-      )){
-         
+       console.log(data);
 
-          navigate("dashboard");
-
-
+       if(signIn({
+          auth: {
+               token: data.access_token,
+               tokenType:data.token_type,
+               authState:data.user,
+               expiresIn:data.expires_in,
+          },
+          userState: data.user,
+      })){
+          // Redirect or do-something
+          console.log("suppose to dashboard");
+          navigate("/dashboard");
       }else {
           //Throw error
           setFormErrors(data || {});
-
+          console.log("is like error dey");
       }
+  })
+
+     //    if(signIn(
+     //      {
+     //          token: data.access_token,
+     //          tokenType:data.token_type,
+     //          authState:data.user,
+     //          expiresIn:data.expires_in,
+     //        // refreshToken: data.refresh_at ,                   // Only if you are using refreshToken feature
+     //          //refreshTokenExpireIn: res.data.refreshTokenExpireIn     // Only if you are using refreshToken feature
+     //      }
+     //  ))
+     //  {
+         
+
+     //      navigate("dashboard");
+
+
+     //  }else {
+     //      //Throw error
+     //      setFormErrors(data || {});
+
+     //  }
        
-      })
+     //  })
       .catch((err) => {
         setFormData(err?.response?.data || {});
      //    setLoading(false)
