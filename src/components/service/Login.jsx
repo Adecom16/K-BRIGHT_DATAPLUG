@@ -1,13 +1,15 @@
 // Login.js
 import { useState } from 'react';
-// import axios from 'axios';
-// import { useAuth } from '../context/AuthContext';
-
+import AuthenticationUtility from '../Utils/AuthenticationUtility';
+import useSignIn from 'react-auth-kit/hooks/useSignIn';
+import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
+import { useNavigate } from 'react-router';
 const Login = () => {
      const [formData, setFormData] = useState({});
      const { loading, login } = useState({});
      const [formErrors, setFormErrors] = useState({});
 
+     
      const handleChange = (e) => {
           setFormData((data) => ({
                ...data,
@@ -153,7 +155,6 @@ const Login = () => {
                                         {formErrors.username}
                                    </p>
                               )}
-
                               <label htmlFor='password'>Password</label>
                               <br />
                               <input
