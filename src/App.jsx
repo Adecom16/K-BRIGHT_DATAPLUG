@@ -21,6 +21,7 @@ import ElectricityBillingPage from "./components/Utils/Electricity";
 import AuthProvider from 'react-auth-kit'
 import createStore from 'react-auth-kit/createStore';
 import "./App.css";
+import NotFoundPage from './components/pages/404page'
 
 function App() {
   const store = createStore({
@@ -54,6 +55,7 @@ function App() {
           <Route path="/airtime" element={<Airtime />} />
           <Route path="/cabletv" element={<Cable />} />
           <Route path="/electricity" element={<ElectricityBillingPage />} />
+               <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>
     </AuthProvider>
