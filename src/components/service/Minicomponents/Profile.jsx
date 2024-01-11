@@ -1,12 +1,10 @@
 
 import React, { useState, useEffect } from "react";
-import Sidebar from "../Minicomponents/Sidebar.jsx";
 import "./all.css";
-import { useAuth } from "../../context/AuthContext.jsx"; 
 import Stat from "./Stat.jsx";
 
-function Profile() {
- const { user, loading } = useAuth();
+const Profile = ()=> {
+ const { user, loading } = useState({});
 
 //  const handleFormSubmit = (e) => {
 //    e.preventDefault();
@@ -26,13 +24,7 @@ function Profile() {
   return (
     <div className="profile-container">
 
-
-    
-      <div className="row" style={{ flexWrap: "nowrap" }}>
-        <div className="col-md-2">
-          <Sidebar />
-        </div>
-        <div className="col-md-10">
+<div className="col-md-10">
           <div className="profile-header d-flex align-items-center mt-5">
             <img
               src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
@@ -105,7 +97,6 @@ function Profile() {
             <Stat />
           </div>
         </div>
-      </div>
     </div>
   );
 }

@@ -1,11 +1,11 @@
 // Login.js
 import { useState } from 'react';
 // import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
+// import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
      const [formData, setFormData] = useState({});
-     const { loading, login } = useAuth();
+     const { loading, login } = useState({});
      const [formErrors, setFormErrors] = useState({});
 
      const handleChange = (e) => {

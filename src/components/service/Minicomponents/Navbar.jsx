@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";
+import React, { useEffect, useState } from "react";
 
-function Navbar() {
-  const { user, loading } = useAuth();
+const Navbar = ()=> {
+  const { user, loading } = useState({});
 
   useEffect(() => {
  
