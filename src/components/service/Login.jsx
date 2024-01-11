@@ -1,5 +1,10 @@
 // Login.js
 import { useState } from 'react';
+import { useNavigationType } from 'react-router';
+import AuthenticationUtility from '../Utils/AuthenticationUtility';
+import useSignIn from 'react-auth-kit/hooks/useSignIn';
+import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
+
 // import axios from 'axios';
 // import { useAuth } from '../context/AuthContext';
 
@@ -7,6 +12,9 @@ const Login = () => {
      const [formData, setFormData] = useState({});
      const { loading, login } = useState({});
      const [formErrors, setFormErrors] = useState({});
+     const {http} = AuthenticationUtility();
+     const navigate = useNavigationType();
+     const signIn = useSignIn();
 
      const handleChange = (e) => {
           setFormData((data) => ({
@@ -17,26 +25,63 @@ const Login = () => {
 
      const handleLogin = async (e) => {
           e.preventDefault();
+          http
+      .post("/login", formData)
+
+      .then((res) => {
+
+        // console.log(res)
+        const data = res.data;
+       // console.log(data);
+        if(signIn(
+          {
+              token: data.access_token,
+              tokenType:data.token_type,
+              authState:data.user,
+              expiresIn:data.expires_in,
+            // refreshToken: data.refresh_at ,                   // Only if you are using refreshToken feature
+              //refreshTokenExpireIn: res.data.refreshTokenExpireIn     // Only if you are using refreshToken feature
+          }
+      )){
+         
+
+          navigate("dashboard");
+
+
+      }else {
+          //Throw error
+          setFormErrors(data || {});
+
+      }
+       
+      })
+      .catch((err) => {
+        setFormData(err?.response?.data || {});
+     //    setLoading(false)
+        
+        
+        
+      });
 
           //  Validating user inputs
-          if (!formData.username) {
-               setFormErrors((form) => ({
-                    ...form,
-                    username: 'Please provide your username',
-               }));
-          }
+          // if (!formData.username) {
+          //      setFormErrors((form) => ({
+          //           ...form,
+          //           username: 'Please provide your username',
+          //      }));
+          // }
 
-          if (!formData.password) {
-               setFormErrors((form) => ({
-                    ...form,
-                    password: 'Please provide your password',
-               }));
+          // if (!formData.password) {
+          //      setFormErrors((form) => ({
+          //           ...form,
+          //           password: 'Please provide your password',
+          //      }));
 
-               return;
-          }
+          //      return;
+          // }
 
           //  then logim user
-          await login(formData);
+          // await login(formData);
      };
 
      return (
