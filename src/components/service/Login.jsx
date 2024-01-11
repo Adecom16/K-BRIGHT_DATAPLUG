@@ -23,10 +23,9 @@ const Login = () => {
 
 
      };
-
      const handleLogin = async (e) => {
 
-          console.log(formData);
+          // console.log(formData);
           e.preventDefault();
           //  Validating user inputs
           if (!formData.username) {
@@ -52,7 +51,7 @@ const Login = () => {
 
         // console.log(res)
         const data = res.data;
-       console.log(data);
+     //   console.log(data);
 
        if(signIn({
           auth: {
@@ -64,12 +63,12 @@ const Login = () => {
           userState: data.user,
       })){
           // Redirect or do-something
-          console.log("suppose to dashboard");
+          // console.log("suppose to dashboard");
           navigate("/dashboard");
       }else {
           //Throw error
           setFormErrors(data || {});
-          console.log("is like error dey");
+          // console.log("is like error dey");
       }
   })
 
