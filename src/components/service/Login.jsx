@@ -5,6 +5,11 @@ import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 import { useNavigate } from 'react-router';
 
+import { useNavigationType } from 'react-router';
+import AuthenticationUtility from '../Utils/AuthenticationUtility';
+import useSignIn from 'react-auth-kit/hooks/useSignIn';
+import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
+
 // import axios from 'axios';
 // import { useAuth } from '../context/AuthContext';
 
@@ -12,9 +17,7 @@ const Login = () => {
      const [formData, setFormData] = useState({});
      const { loading, login } = useState({});
      const [formErrors, setFormErrors] = useState({});
-     const {http} = AuthenticationUtility();
-     const signIn = useSignIn();
-     const navigate = useNavigate();
+
      const handleChange = (e) => {
           setFormData((data) => ({
                ...data,
@@ -28,6 +31,7 @@ const Login = () => {
 
           console.log(formData);
           e.preventDefault();
+
           //  Validating user inputs
           if (!formData.username) {
                setFormErrors((form) => ({
@@ -35,15 +39,43 @@ const Login = () => {
                     username: 'Please provide your username',
                }));
           }
+      )){
+         
 
-          if (!formData.password) {
-               setFormErrors((form) => ({
-                    ...form,
-                    password: 'Please provide your password',
-               }));
+          navigate("dashboard");
 
-               return;
-          }
+
+      }else {
+          //Throw error
+          setFormErrors(data || {});
+
+      }
+       
+      })
+      .catch((err) => {
+        setFormData(err?.response?.data || {});
+     //    setLoading(false)
+        
+        
+        
+      });
+
+          //  Validating user inputs
+          // if (!formData.username) {
+          //      setFormErrors((form) => ({
+          //           ...form,
+          //           username: 'Please provide your username',
+          //      }));
+          // }
+
+          // if (!formData.password) {
+          //      setFormErrors((form) => ({
+          //           ...form,
+          //           password: 'Please provide your password',
+          //      }));
+
+          //      return;
+          // }
 
           http
       .post("/login", formData)
@@ -122,7 +154,7 @@ const Login = () => {
           // }
 
           //  then logim user
-          // await login(formData);
+          await login(formData);
      };
 
      return (
