@@ -28,43 +28,15 @@ const Login = () => {
                     username: 'Please provide your username',
                }));
           }
-      )){
-         
 
-          navigate("dashboard");
+          if (!formData.password) {
+               setFormErrors((form) => ({
+                    ...form,
+                    password: 'Please provide your password',
+               }));
 
-
-      }else {
-          //Throw error
-          setFormErrors(data || {});
-
-      }
-       
-      })
-      .catch((err) => {
-        setFormData(err?.response?.data || {});
-     //    setLoading(false)
-        
-        
-        
-      });
-
-          //  Validating user inputs
-          // if (!formData.username) {
-          //      setFormErrors((form) => ({
-          //           ...form,
-          //           username: 'Please provide your username',
-          //      }));
-          // }
-
-          // if (!formData.password) {
-          //      setFormErrors((form) => ({
-          //           ...form,
-          //           password: 'Please provide your password',
-          //      }));
-
-          //      return;
-          // }
+               return;
+          }
 
           http
       .post("/login", formData)
