@@ -10,7 +10,7 @@ import Contact from "./components/pages/Contact";
 import Login from "./components/service/Login";
 import Register from "./components/service/Register";
 import Dashboard from "./components/service/Dashboard";
-import { AuthProvider } from "./components/context/AuthContext";
+// import { AuthProvider } from "./components/context/AuthContext";
 // import {UserProvider} from './components/context/UserContext'
 import Profile from "../src/components/service/Minicomponents/Profile";
 import Performance from "../src/components/service/Minicomponents/Performance";
@@ -18,31 +18,46 @@ import Data from "../src/components/Utils/Data";
 import Airtime from "../src/components/Utils/Airtime";
 import Cable from "../src/components/Utils/Cable";
 import ElectricityBillingPage from "./components/Utils/Electricity";
-
+import AuthProvider from 'react-auth-kit'
+import createStore from 'react-auth-kit/createStore';
 import "./App.css";
 
 function App() {
+  const store = createStore({
+    authType:"localstorage", 
+    authName:"music_is_life",
+    cookieDomain: window.location.hostname,
+    cookieSecure: window.location.protocol === 'https:',
+  });
+  
   return (
-    <>
+  //  <>
+    <AuthProvider  store={store}>
       <Router>
-        <AuthProvider>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/Register" element={<Register />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/performance" element={<Performance />} />
-            <Route path="/data" element={<Data />} />
-            <Route path="/airtime" element={<Airtime />} />
-            <Route path="/cabletv" element={<Cable />} />
-            <Route path="/electricity" element={<ElectricityBillingPage />} />
-          </Routes>
-        </AuthProvider>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          {/* <Route
+            path="/dashboard"
+            element={
+              <RequireAuth loginPath="/login">
+                <Dashboard />
+              </RequireAuth>
+            }
+          /> */}
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/performance" element={<Performance />} />
+          <Route path="/data" element={<Data />} />
+          <Route path="/airtime" element={<Airtime />} />
+          <Route path="/cabletv" element={<Cable />} />
+          <Route path="/electricity" element={<ElectricityBillingPage />} />
+        </Routes>
       </Router>
-    </>
+    </AuthProvider>
+    // </>
   );
 }
 
