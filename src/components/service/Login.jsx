@@ -4,10 +4,6 @@ import AuthenticationUtility from '../Utils/AuthenticationUtility';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 import { useNavigate } from 'react-router';
-
-// import axios from 'axios';
-// import { useAuth } from '../context/AuthContext';
-
 const Login = () => {
      const [formData, setFormData] = useState({});
      const { loading, login } = useState({});
