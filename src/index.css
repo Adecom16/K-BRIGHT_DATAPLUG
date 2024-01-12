@@ -2,24 +2,11 @@
 
 @media screen and (max-width: 574px) {
   /* ================= Home Page ===========================*/
-  .hero-section {
-    width: 100%;
-    background-color: whitesmoke;
-    height: auto;
-  }
-  .hero-button-section {
-    display: flex;
-    flex-wrap: wrap;
-    text-align: center;
-  }
+ 
+ 
 
-  .FirstSide-Section {
-    padding-left: 50px;
-    padding-top: 200px;
-  }
-  .SecondSide-Section img {
-    display: none;
-  }
+ 
+
 
   .heading-2 {
     font-weight: bolder;
@@ -33,24 +20,9 @@
     width: 150%;
     color: #2c3655;
   }
-  .hero-button-section {
-    display: inline-flex;
-    gap: 5px;
-  }
+ 
 
-  .btn-cta-1 {
-    text-decoration: none;
-    padding: 10px;
-    width: 200px;
-    text-align: center;
-    background: #1a4dbe;
-    color: white;
-    font-weight: bold;
-    text-align: center;
-    height: 30px;
-    transition: 0.3s;
-    border-radius: 50px;
-  }
+ 
 
   .btn-cta-2 {
     text-decoration: none;
@@ -89,27 +61,11 @@
     -webkit-transition: all 0.3s;
   }
 
-  .realtime-heading-3 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 400;
-    color: #2c3655;
-    line-height: 30px;
-  }
-  .check {
-    min-width: 24px;
-    /* min-height: 24px; */
-    background: green;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    border-radius: 50%;
-  }
-  .SecondSide-realtime img {
-    display: none;
-  }
+
+  
+ 
   /* ============================== Billing =============================*/
-  .Billing-section {
+  /* .Billing-section {
     margin-top: 500px;
     padding: 2rem 4rem;
     display: flex;
@@ -118,7 +74,7 @@
     gap: 10.5rem;
     flex-wrap: wrap;
     flex-direction: row-reverse;
-  }
+  } */
   /* ============================== Loan =============================*/
   .loan-section {
     padding: 2rem 4rem;
@@ -186,36 +142,9 @@
     display: none;
     max-width: 100%;
   }
-  .last-sect-title-1-2 {
-    font-weight: 700;
-    margin-bottom: 16px;
-    font-size: 33px;
-    line-height: 55.9px;
-    margin-top: 0px;
-    /* padding-left: 20px; */
-    color: white;
-  }
-  .lastsection2 {
-    /* margin-top: 0px; */
-    /* flex-direction: row-reverse; */
-    /* display: flex; */
-    border-radius: 30px;
-    justify-content: center;
-    gap: 0rem;
-    /* width: 100%; */
-    display: grid;
-    padding: 10px;
-    height: auto;
-    align-items: center;
-    background-color: blue;
-  }
 
-  .hero-section {
-    width: 100%;
-    background-color: whitesmoke;
-    height: auto;
-    display: flex;
-  }
+
+
   .FirstSide-Section {
     width: 50%;
     padding-left: 30px;
@@ -323,35 +252,8 @@
     display: none;
     max-width: 100%;
   }
-  .last-sect-title-1-2 {
-    font-weight: 700;
-    margin-bottom: 16px;
-    font-size: 33px;
-    line-height: 55.9px;
-    margin-top: 0px;
-    /* padding-left: 20px; */
-    color: white;
-  }
-  .lastsection2 {
-    /* margin-top: 0px; */
-    /* flex-direction: row-reverse; */
-    /* display: flex; */
-    border-radius: 30px;
-    justify-content: center;
-    gap: 0rem;
-    /* width: 100%; */
-    display: grid;
-    padding: 10px;
-    height: auto;
-    align-items: center;
-    background-color: blue;
-  }
-  .hero-section {
-    width: 100%;
-    background-color: whitesmoke;
-    height: auto;
-    display: flex;
-  }
+  
+ 
   .FirstSide-Section {
     width: 50%;
     padding-left: 30px;
@@ -397,35 +299,7 @@
     display: none;
     max-width: 100%;
   }
-  .last-sect-title-1-2 {
-    font-weight: 700;
-    margin-bottom: 16px;
-    font-size: 33px;
-    line-height: 55.9px;
-    margin-top: 0px;
-    /* padding-left: 20px; */
-    color: white;
-  }
-  .lastsection2 {
-    /* margin-top: 0px; */
-    /* flex-direction: row-reverse; */
-    /* display: flex; */
-    border-radius: 30px;
-    justify-content: center;
-    gap: 0rem;
-    /* width: 100%; */
-    display: grid;
-    padding: 10px;
-    height: auto;
-    align-items: center;
-    background-color: blue;
-  }
-  .hero-section {
-    width: 100%;
-    background-color: whitesmoke;
-    height: auto;
-    display: flex;
-  }
+  
   .FirstSide-Section {
     width: 50%;
     padding-left: 30px;
@@ -471,35 +345,8 @@
     display: none;
     max-width: 100%;
   }
-  .last-sect-title-1-2 {
-    font-weight: 700;
-    margin-bottom: 16px;
-    font-size: 33px;
-    line-height: 55.9px;
-    margin-top: 0px;
-    /* padding-left: 20px; */
-    color: white;
-  }
-  .lastsection2 {
-    /* margin-top: 0px; */
-    /* flex-direction: row-reverse; */
-    /* display: flex; */
-    border-radius: 30px;
-    justify-content: center;
-    gap: 0rem;
-    /* width: 100%; */
-    display: grid;
-    padding: 10px;
-    height: auto;
-    align-items: center;
-    background-color: blue;
-  }
-  .hero-section {
-    width: 100%;
-    background-color: whitesmoke;
-    height: auto;
-    display: flex;
-  }
+
+
   .FirstSide-Section {
     width: 50%;
     padding-left: 30px;
@@ -510,12 +357,7 @@
   }
 }
 @media screen and (max-width: 937px) {
-  .hero-section {
-    width: 100%;
-    background-color: whitesmoke;
-    height: auto;
-    display: flex;
-  }
+
 
   .About-page {
     /* width: 100%; */
@@ -552,29 +394,7 @@
     display: none;
     max-width: 100%;
   }
-  .last-sect-title-1-2 {
-    font-weight: 700;
-    margin-bottom: 16px;
-    font-size: 33px;
-    line-height: 55.9px;
-    margin-top: 0px;
-    /* padding-left: 20px; */
-    color: white;
-  }
-  .lastsection2 {
-    /* margin-top: 0px; */
-    /* flex-direction: row-reverse; */
-    /* display: flex; */
-    border-radius: 30px;
-    justify-content: center;
-    gap: 0rem;
-    /* width: 100%; */
-    display: grid;
-    padding: 10px;
-    height: auto;
-    align-items: center;
-    background-color: blue;
-  }
+ 
   .FirstSide-Section {
     width: 50%;
     padding-left: 30px;
@@ -587,13 +407,7 @@
 
 @media screen and (max-width: 876px) {
   /* ================= Home Page ===========================*/
-  .hero-section {
-    width: 100%;
-    background-color: whitesmoke;
-    height: auto;
-    display: flex;
-    flex-wrap: wrap;
-  }
+  
 
   .About-page {
     /* width: 100%; */
@@ -630,34 +444,8 @@
     display: none;
     max-width: 100%;
   }
-  .last-sect-title-1-2 {
-    font-weight: 700;
-    margin-bottom: 16px;
-    font-size: 33px;
-    line-height: 55.9px;
-    margin-top: 0px;
-    /* padding-left: 20px; */
-    color: white;
-  }
-  .lastsection2 {
-    /* margin-top: 0px; */
-    /* flex-direction: row-reverse; */
-    /* display: flex; */
-    border-radius: 30px;
-    justify-content: center;
-    gap: 0rem;
-    /* width: 100%; */
-    display: grid;
-    padding: 10px;
-    height: auto;
-    align-items: center;
-    background-color: blue;
-  }
 
-  .FirstSide-Section {
-    padding-left: 50px;
-    padding-top: 200px;
-  }
+ 
   .SecondSide-Section img {
     display: none;
   }
@@ -674,10 +462,7 @@
     width: 150%;
     color: #2c3655;
   }
-  .hero-button-section {
-    display: inline-flex;
-    gap: 5px;
-  }
+ 
 
   .btn-cta-1 {
     text-decoration: none;
@@ -737,36 +522,13 @@
     -webkit-transition: all 0.3s;
   }
 
-  .realtime-heading-3 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 400;
-    color: #2c3655;
-    line-height: 30px;
-  }
-  .check {
-    min-width: 24px;
-    /* min-height: 24px; */
-    background: green;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    border-radius: 50%;
-  }
+  
+  
   .SecondSide-realtime img {
     max-width: 100%;
   }
   /* ============================== Billing =============================*/
-  .Billing-section {
-    margin-top: 20px;
-    padding: 2rem 4rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10.5rem;
-    flex-wrap: wrap;
-    flex-direction: row-reverse;
-  }
+ 
   /* ============================== Loan =============================*/
   .loan-section {
     padding: 2rem 4rem;
@@ -798,9 +560,9 @@
   }
 }
 @media screen and (max-width: 441px) {
-  .SecondSide-realtime img {
+  /* .SecondSide-realtime img {
     display: none;
-  }
+  } */
   .SecondSide-Section img {
     display: none;
   }
@@ -875,14 +637,7 @@
     justify-content: center;
     align-items: center;
   }
-  .Billing-section {
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10.5rem;
-    flex-direction: row-reverse;
-  }
+
   .loan-section {
     margin-top: 0px;
     padding: 5rem 8rem;
@@ -905,16 +660,12 @@
     /* flex-direction: row-reverse; */
   }
 
-  .Billing-section {
-    padding: 10px;
-    margin-top: 2rem;
-  }
   .loan-section {
     height: 70vb;
   }
-  .SecondSide-realtime img {
+  /* .SecondSide-realtime img {
     display: none;
-  }
+  } */
   .review-carousel {
     display: flex;
     flex-wrap: wrap;
@@ -949,14 +700,7 @@
     -webkit-transition: all 0.3s;
   }
 
-  .Billing-section {
-    padding: 0rem 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0rem;
-    flex-direction: row-reverse;
-  }
+
   .check-text {
     font-size: 13px;
     font-weight: 400;
@@ -979,21 +723,6 @@
     overflow: hidden;
     transition: transform 0.3s;
     border: 1px solid #3498db; /* Blue border */
-  }
-
-  .lastsection {
-    margin-top: 0px;
-    flex-direction: row-reverse;
-    display: flex;
-    border-radius: 50px;
-    justify-content: center;
-    height: 40vh;
-    align-items: center;
-    background-color: blue;
-  }
-  .first-sec-last {
-    width: 100%;
-    display: none;
   }
 
   .About-page {
@@ -1031,29 +760,7 @@
     display: none;
     max-width: 100%;
   }
-  .last-sect-title-1-2 {
-    font-weight: 700;
-    margin-bottom: 16px;
-    font-size: 33px;
-    line-height: 55.9px;
-    margin-top: 0px;
-    /* padding-left: 20px; */
-    color: white;
-  }
-  .lastsection2 {
-    /* margin-top: 0px; */
-    /* flex-direction: row-reverse; */
-    /* display: flex; */
-    border-radius: 30px;
-    justify-content: center;
-    gap: 0rem;
-    /* width: 100%; */
-    display: grid;
-    padding: 10px;
-    height: auto;
-    align-items: center;
-    background-color: blue;
-  }
+ 
 
   /* ========Contact Form ======== */
   .Contact-Sec {

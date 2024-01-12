@@ -7,11 +7,11 @@ import Lastsec from "./subComponents/Lastsec";
 import Navbar from "../layouts/Navbar";
 export  function HomePage() {
   return (
-    <div className="">
-    <Navbar/>
-      <div className="">
-        <div className="hero-section  ">
-          <div className="FirstSide-Section ">
+    <div className="" style={{ backgroundColor: "whitesmoke" }}>
+      <Navbar />
+      <div className=" container-fluid">
+        <div className="hero-section  row ">
+          <div className=" col-md-6 " style={{ paddingTop: "230px" }}>
             <span className="heading-1">Simple. Transparent. Secure</span>
             <br />
             <br />
@@ -30,7 +30,7 @@ export  function HomePage() {
             <br />
 
             <div className="hero-button-section">
-              <a href="" className="btn-cta-1">
+              <a href="/login" className="btn-cta-1 ">
                 Open Account
               </a>
               <a href="" className="btn-cta-2">
@@ -38,8 +38,12 @@ export  function HomePage() {
               </a>
             </div>
           </div>
-          <div className="SecondSide-Section ">
-            <img src="https://demo.dirtyscripts.shop/vtu/assets/frontend/assets/images/banner-bg.png"></img>
+          <div className="SecondSide-Section col-md-6">
+            <img
+              className=""
+              width={780}
+              src="https://demo.dirtyscripts.shop/vtu/assets/frontend/assets/images/banner-bg.png"
+            ></img>
           </div>
         </div>
       </div>
@@ -49,7 +53,7 @@ export  function HomePage() {
       <Testimonal />
       <Carousel />
       <br />
-      <Lastsec/>
+      <Lastsec />
     </div>
   );
 }
