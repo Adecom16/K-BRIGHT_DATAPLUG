@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Dashboard from './components/service/Dashboard'
+import Dashboard from './components/service/User'
 
 export default function DashboardRoute() {
   return (

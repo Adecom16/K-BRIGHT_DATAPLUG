@@ -3,25 +3,31 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 // import { Footer } from "./components/layouts/Footer";
 
-import { HomePage } from "./components/pages/Homepage";
+import  HomePage  from "./components/pages/Homepage";
 import AboutPage from "./components/pages/About";
 import Contact from "./components/pages/Contact";
 
 import Login from "./components/service/Login";
 import Register from "./components/service/Register";
-import Dashboard from "./components/service/Dashboard";
-// import { AuthProvider } from "./components/context/AuthContext";
-// import {UserProvider} from './components/context/UserContext'
+
 import Profile from "../src/components/service/Minicomponents/Profile";
 import Performance from "../src/components/service/Minicomponents/Performance";
 import Data from "../src/components/Utils/Data";
 import Airtime from "../src/components/Utils/Airtime";
 import Cable from "../src/components/Utils/Cable";
+
 import ElectricityBillingPage from "./components/Utils/Electricity";
-import AuthProvider from 'react-auth-kit'
+
+import AuthProvider from 'react-auth-kit';
+import RequireAuth from '@auth-kit/react-router/RequireAuth'
 import createStore from 'react-auth-kit/createStore';
 import "./App.css";
+<<<<<<< HEAD
 import NotFoundPage from './components/pages/404page'
+=======
+import User from "./components/service/User";
+import Dashboard from "./components/service/Minicomponents/Dashboard";
+>>>>>>> c6e8e09927b1e7075ab195619b39c1c7adf8f295
 
 function App() {
   const store = createStore({
@@ -41,13 +47,15 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          {/* <Route
+
+          <Route
             path="/dashboard"
             element={
-              <RequireAuth loginPath="/login">
-                <Dashboard />
+              <RequireAuth fallbackPath="/login">
+                <User/>
               </RequireAuth>
             }
+<<<<<<< HEAD
           /> */}
           <Route path="/profile" element={<Profile />} />
           <Route path="/performance" element={<Performance />} />
@@ -56,6 +64,19 @@ function App() {
           <Route path="/cabletv" element={<Cable />} />
           <Route path="/electricity" element={<ElectricityBillingPage />} />
                <Route path="*" element={<NotFoundPage />} />
+=======
+          >
+
+          <Route path="" element={<Dashboard />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="performance" element={<Performance />} />
+          <Route path="data" element={<Data />} />
+          <Route path="airtime" element={<Airtime />} />
+          <Route path="cabletv" element={<Cable />} />
+          <Route path="electricity" element={<ElectricityBillingPage />} />
+
+          </Route>
+>>>>>>> c6e8e09927b1e7075ab195619b39c1c7adf8f295
         </Routes>
       </Router>
     </AuthProvider>

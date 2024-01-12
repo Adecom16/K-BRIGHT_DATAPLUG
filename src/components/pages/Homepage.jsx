@@ -5,7 +5,7 @@ import Testimonal from './subComponents/Testimonal'
 import Carousel from "./subComponents/Carosel";
 import Lastsec from "./subComponents/Lastsec";
 import Navbar from "../layouts/Navbar";
-export  function HomePage() {
+export default  function HomePage() {
   return (
     <div className="" style={{ backgroundColor: "whitesmoke" }}>
       <Navbar />
