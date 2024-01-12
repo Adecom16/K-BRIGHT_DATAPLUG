@@ -5,18 +5,18 @@ function Contact() {
     <div>
     <Navbar/>
       <div className="main-contact">
-        <div className="Contact-Sec">
-          <div>
+        <div className="Contact-Sec row">
+          <div className="contact-section-text col-md-6">
             <h1 className="text-heading-contact">Contact Us</h1>
           </div>
-          <div className="contact-section-img">
-            <img src="/contact-banner.png" />
+          <div className="contact-section-img col-md-6">
+            <img width={400} src="/contact-banner.png" />
           </div>
         </div>
         <br />
-        <br />
+       
 
-        <div className="text-contactus">
+        <div className=" mt-5 text-contactus">
           <h1>Get in Touch</h1>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
@@ -26,14 +26,7 @@ function Contact() {
 
         <div
           className="form-group"
-          // style={{
-          //   height: "100vh",
-          //   margin: "7% 13%",
-          //   background: "white",
-          //   boxShadow: "0px -12px 24px rgba(47, 65, 129, 0.1)",
-          //   borderRadius: "20px",
-          //   alignItems: "center",
-          // }}
+     
         >
           <div className="form-sec">
             <form>

@@ -22,12 +22,12 @@ import AuthProvider from 'react-auth-kit';
 import RequireAuth from '@auth-kit/react-router/RequireAuth'
 import createStore from 'react-auth-kit/createStore';
 import "./App.css";
-<<<<<<< HEAD
+
 import NotFoundPage from './components/pages/404page'
-=======
+
 import User from "./components/service/User";
 import Dashboard from "./components/service/Minicomponents/Dashboard";
->>>>>>> c6e8e09927b1e7075ab195619b39c1c7adf8f295
+
 
 function App() {
   const store = createStore({
@@ -55,8 +55,8 @@ function App() {
                 <User/>
               </RequireAuth>
             }
-<<<<<<< HEAD
-          /> */}
+
+          />
           <Route path="/profile" element={<Profile />} />
           <Route path="/performance" element={<Performance />} />
           <Route path="/data" element={<Data />} />
@@ -64,19 +64,7 @@ function App() {
           <Route path="/cabletv" element={<Cable />} />
           <Route path="/electricity" element={<ElectricityBillingPage />} />
                <Route path="*" element={<NotFoundPage />} />
-=======
-          >
 
-          <Route path="" element={<Dashboard />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="performance" element={<Performance />} />
-          <Route path="data" element={<Data />} />
-          <Route path="airtime" element={<Airtime />} />
-          <Route path="cabletv" element={<Cable />} />
-          <Route path="electricity" element={<ElectricityBillingPage />} />
-
-          </Route>
->>>>>>> c6e8e09927b1e7075ab195619b39c1c7adf8f295
         </Routes>
       </Router>
     </AuthProvider>

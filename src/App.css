@@ -439,11 +439,11 @@ body {
 
 .About-page {
   /* width: 100%; */
-  padding: 6rem 8rem;
-  display: flex;
-  height: 100vh;
+  /* padding: 6rem 8rem; */
+  /* display: flex; */
+  height: auto;
   /* gap: 2000px; */
-  background-color: white !important;
+  background-color: whitesmoke !important;
 }
 /* .first-about-sec{
 
@@ -456,15 +456,13 @@ body {
 .heading-2-2 {
   font-size: 57px;
   /* line-height: 74.1px; */
-  margin-top: -12px;
-  font-weight: 700;
-  width: 45%;
+ 
 }
 .heading-3-3 {
   font-size: 18px;
   font-weight: 400;
   line-height: 30px;
-  width: 45%;
+
 }
 .first-box {
   padding: 30px 45px;
@@ -487,19 +485,16 @@ body {
 }
 
 .about-img-1 {
-  left: -600px;
+  /* left: -600px; */
   bottom: 300px;
-  /* top: 300px; */
 }
 .about-img-2 {
-  left: -35rem;
+  /* left: -35rem; */
   bottom: 100px;
-  /* top: 300px; */
 }
 .about-img-3 {
-  left: -18rem;
+  left: 3rem;
   bottom: 15rem;
-  /* top: 300px; */
 }
 .About-page .second-about-sec img {
   position: absolute;
@@ -509,10 +504,10 @@ body {
 }
 
 .lastsection2 {
-  margin-top: 0px;
+  /* margin-top: 0px; */
   flex-direction: row-reverse;
   display: flex;
-  border-radius: 50px;
+  border-radius: 20px;
   justify-content: center;
   gap: 10rem;
   height: 40vh;
@@ -535,8 +530,8 @@ body {
 
 .Contact-Sec {
   width: 100%;
-  display: flex;
-  gap: 25rem;
+  /* display: flex; */
+  /* gap: 25rem; */
   height: 60vh;
   background-color: rgb(223, 232, 246);
 }
@@ -548,12 +543,12 @@ body {
 }
 .contact-section-img img {
   padding-top: 100px;
-  width: 80%;
+  /* width: 80%; */
 }
 
 .form-group {
   height: 100vh;
-  margin: 7% 13%;
+  /* margin: 7% 13%; */
   background: white;
   border-radius: 20px;
   align-items: center;
@@ -569,7 +564,7 @@ body {
 .form-sec {
   display: grid;
   justify-content: center;
-  padding: 2rem 4rem;
+  /* padding: 2rem 4rem; */
 }
 .first-cont {
   display: flex;

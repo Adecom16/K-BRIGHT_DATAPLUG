@@ -166,7 +166,7 @@
     padding-top: 100px;
     padding-left: 0px;
     text-align: center;
-    font-size: 30px;
+    font-size: 20px;
     font-weight: bolder;
   }
 
@@ -181,7 +181,7 @@
 .form-sec{
   display: grid;
   justify-content: center;
-  padding: 1rem 2rem;
+  /* padding: 1rem 2rem; */
 }
 .form-group{
   height: auto !important;
@@ -778,9 +778,6 @@
     font-weight: bolder;
   }
 
-  .contact-section-img img {
-    display: none;
-  }
   .text-contactus h1{
   font-weight: bolder !important;
   font-size: 40px;
