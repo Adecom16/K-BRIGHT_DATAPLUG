@@ -1,22 +1,26 @@
 import React from "react";
 import Navbar from "../layouts/Navbar";
+
 function Contact() {
   return (
     <div>
-    <Navbar/>
+      <Navbar />
       <div className="main-contact">
         <div className="Contact-Sec row">
           <div className="contact-section-text col-md-6">
             <h1 className="text-heading-contact">Contact Us</h1>
           </div>
           <div className="contact-section-img col-md-6">
-            <img width={400} src="/contact-banner.png" />
+            <img
+              className="img-fluid"
+              src="/contact-banner.png"
+              alt="Contact Banner"
+            />
           </div>
         </div>
         <br />
-       
 
-        <div className=" mt-5 text-contactus">
+        <div className="mt-5 text-contactus">
           <h1>Get in Touch</h1>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
@@ -24,60 +28,62 @@ function Contact() {
           </p>
         </div>
 
-        <div
-          className="form-group"
-     
-        >
-          <div className="form-sec">
-            <form>
-              <div className="first-cont">
-                <div className="name-sec">
-                  <label for="name">Name</label>
-                  <br />
-                  <input type="text" size={55} placeholder="Your Name .." />
-                </div>
-                <div className="name-sec">
-                  <label for="name">Email Address</label>
-                  <br />
+        <div className="form-sec mt-5">
+          <form>
+            <div className="row">
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label htmlFor="name">Name</label>
                   <input
                     type="text"
-                    size={50}
-                    placeholder="Your Email Address .."
+                    className="form-control"
+                    placeholder="Your Name.."
+                    style={{ borderColor: "#3498db" }}
                   />
                 </div>
               </div>
-              <br />
-              <br />
-
-              <div className="name-sec">
-                <label for="name">Title</label>
-                <br />
-                <input type="text" size={122} placeholder="Message Title" />
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label htmlFor="email">Email Address</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    placeholder="Your Email Address.."
+                    style={{ borderColor: "#3498db" }}
+                  />
+                </div>
               </div>
-              <br />
-              <br />
-              <div className="name-sec">
-                <label for="name">Message</label>
-                <br />
-                <br />
+            </div>
 
-                {/* <input type="text" size={120} placeholder="Message Title" /> */}
-                <textarea
-                  name="message"
-                  placeholder="Message"
-                  rows="20"
-                  w
-                ></textarea>
-              </div>
-
+            <div className="form-group">
+              <label htmlFor="title">Title</label>
               <input
-                className="Btn-cta-contact"
-                type="submit"
-                name=""
-                value="Submit"
-              ></input>
-            </form>
-          </div>
+                type="text"
+                className="form-control"
+                placeholder="Message Title"
+                style={{ borderColor: "#3498db" }}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="message">Message</label>
+              <textarea
+                className="form-control"
+                name="message"
+                placeholder="Your Message"
+                rows="4"
+                style={{ borderColor: "#3498db" }}
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              className="Btn-cta-contact btn btn-primary"
+              style={{ backgroundColor: "#3498db", borderColor: "#3498db" }}
+            >
+              Submit
+            </button>
+          </form>
         </div>
       </div>
     </div>

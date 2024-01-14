@@ -1,196 +1,205 @@
 // Login.js
-import { useState } from 'react';
-import AuthenticationUtility from '../Utils/AuthenticationUtility';
-import useSignIn from 'react-auth-kit/hooks/useSignIn';
-import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
-import { useNavigate } from 'react-router';
+import { useState } from "react";
+import AuthenticationUtility from "../Utils/AuthenticationUtility";
+import useSignIn from "react-auth-kit/hooks/useSignIn";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import { useNavigate, Link } from "react-router-dom";
+
 const Login = () => {
-     const [formData, setFormData] = useState({});
-     const { loading, login } = useState({});
-     const [formErrors, setFormErrors] = useState({});
-     const {http} = AuthenticationUtility();
-     const signIn = useSignIn();
-     const navigate = useNavigate();
-     
-     const handleChange = (e) => {
-          setFormData((data) => ({
-               ...data,
-               [e.target.name]: e.target.value,
-          }));
+  const [formData, setFormData] = useState({});
+  const { loading, login } = useState({});
+  const [formErrors, setFormErrors] = useState({});
+  const { http } = AuthenticationUtility();
+  const signIn = useSignIn();
+  const navigate = useNavigate();
 
+  const handleChange = (e) => {
+    setFormData((data) => ({
+      ...data,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
-     };
-     const handleLogin = async (e) => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-          // console.log(formData);
-          e.preventDefault();
+    // Validating user inputs
+    if (!formData.username) {
+      setFormErrors((form) => ({
+        ...form,
+        username: "Please provide your username",
+      }));
+    }
 
-          //  Validating user inputs
-          if (!formData.username) {
-               setFormErrors((form) => ({
-                    ...form,
-                    username: 'Please provide your username',
-               }));
-          }
+    if (!formData.password) {
+      setFormErrors((form) => ({
+        ...form,
+        password: "Please provide your password",
+      }));
+      return;
+    }
 
-          if (!formData.password) {
-               setFormErrors((form) => ({
-                    ...form,
-                    password: 'Please provide your password',
-               }));
+    try {
+      const res = await http.post("/login", formData);
 
-               return;
-          }
+      const data = res.data;
 
-          http
-      .post("/login", formData)
-
-      .then((res) => {
-
-        // console.log(res)
-        const data = res.data;
-     //   console.log(data);
-
-       if(signIn({
+      if (
+        signIn({
           auth: {
-               token: data.access_token,
-               tokenType:data.token_type,
-               authState:data.user,
-               expiresIn:data.expires_in,
+            token: data.access_token,
+            tokenType: data.token_type,
+            authState: data.user,
+            expiresIn: data.expires_in,
           },
           userState: data.user,
-      })){
-          // Redirect or do-something
-          // console.log("suppose to dashboard");
-          navigate("/dashboard");
-      }else {
-          //Throw error
-          setFormErrors(data || {});
-          // console.log("is like error dey");
+        })
+      ) {
+        // Redirect or do-something
+        navigate("/dashboard");
+      } else {
+        // Throw error
+        setFormErrors(data || {});
       }
-  })
+    } catch (err) {
+      setFormErrors(err?.response?.data || {});
+    }
+  };
 
-     //    if(signIn(
-     //      {
-     //          token: data.access_token,
-     //          tokenType:data.token_type,
-     //          authState:data.user,
-     //          expiresIn:data.expires_in,
-     //        // refreshToken: data.refresh_at ,                   // Only if you are using refreshToken feature
-     //          //refreshTokenExpireIn: res.data.refreshTokenExpireIn     // Only if you are using refreshToken feature
-     //      }
-     //  ))
-     //  {
-         
+  return (
+    <div style={styles.center}>
+      <div style={styles.loginForm}>
+        <h1>Login</h1>
 
-     //      navigate("dashboard");
+        <div style={styles.form}>
+          <form onSubmit={handleLogin}>
+            <label htmlFor="username">Username</label>
+            <br />
+            <input
+              style={styles.input}
+              size={43}
+              type="text"
+              id="username"
+              name="username"
+              onChange={handleChange}
+              className={formErrors.username ? "error" : ""}
+            />
+            {formErrors.username && (
+              <p style={styles.errorMessage}>{formErrors.username}</p>
+            )}
+            <label htmlFor="password">Password</label>
+            <br />
+            <input
+              style={styles.input}
+              size={43}
+              type="password"
+              id="password"
+              name="password"
+              onChange={handleChange}
+              className={formErrors.password ? "error" : ""}
+            />
+            {formErrors.password && (
+              <p style={styles.errorMessage}>{formErrors.password}</p>
+            )}
 
+            <div style={styles.checkboxSection}>
+              <input type="checkbox" id="rememberMe" name="rememberMe" />
+              <label htmlFor="rememberMe">Remember Me</label>
+            </div>
 
-     //  }else {
-     //      //Throw error
-     //      setFormErrors(data || {});
+            <div style={styles.formFooter}>
+              <div style={styles.forgotPassword}>
+                <Link to="/forgot-password">Forgot Password?</Link>
+              </div>
+              <button style={styles.buttonCta} type="submit" disabled={loading}>
+                {loading ? "Logging in..." : "Login"}
+              </button>
+            </div>
+          </form>
+        </div>
 
-     //  }
-       
-     //  })
-      .catch((err) => {
-        setFormData(err?.response?.data || {});
-     //    setLoading(false)
-        
-        
-        
-      });
+        <div style={styles.registerLink}>
+          <p>
+            Don't have an account? <Link to="/register">Register here</Link>.
+          </p>
+        </div>
 
-          //  Validating user inputs
-          // if (!formData.username) {
-          //      setFormErrors((form) => ({
-          //           ...form,
-          //           username: 'Please provide your username',
-          //      }));
-          // }
+        <div style={styles.socialiteSection}>
+          {/* Add your socialite buttons here */}
+          <button style={styles.socialiteButton}>Google</button>
+          <button style={styles.socialiteButton}>Facebook</button>
+          {/* Add more socialite buttons as needed */}
+        </div>
+      </div>
+    </div>
+  );
+};
 
-          // if (!formData.password) {
-          //      setFormErrors((form) => ({
-          //           ...form,
-          //           password: 'Please provide your password',
-          //      }));
-
-          //      return;
-          // }
-
-          //  then logim user
-          await login(formData);
-     };
-
-     return (
-          <div className='center'>
-               <div className='login-form'>
-                    <h1>Login</h1>
-
-                    <div className='form'>
-                         {/* {loginError && (
-                              <p
-                                   style={{ color: 'red' }}
-                                   className='error-message'
-                              >
-                                   {loginError}
-                              </p>
-                         )} */}
-                         <form onSubmit={handleLogin}>
-                              <label htmlFor='username'>Username</label>
-                              <br />
-                              <input
-                                   size={43}
-                                   type='text'
-                                   id='username'
-                                   name='username'
-                                   onChange={handleChange}
-                                   className={
-                                        formErrors.username ? 'error' : ''
-                                   }
-                              />
-                              {formErrors.username && (
-                                   <p
-                                        style={{ color: 'red' }}
-                                        className='error-message'
-                                   >
-                                        {formErrors.username}
-                                   </p>
-                              )}
-                              <label htmlFor='password'>Password</label>
-                              <br />
-                              <input
-                                   size={43}
-                                   type='password'
-                                   id='password'
-                                   name='password'
-                                   onChange={handleChange}
-                                   className={
-                                        formErrors.password ? 'error' : ''
-                                   }
-                              />
-                              {formErrors.password && (
-                                   <p
-                                        style={{ color: 'red' }}
-                                        className='error-message'
-                                   >
-                                        {formErrors.password}
-                                   </p>
-                              )}
-
-                              <br />
-                              <input
-                                   className='button-cta'
-                                   type='submit'
-                                   value={loading ? 'Logging in...' : 'Login'}
-                                   disabled={loading}
-                              />
-                              <br />
-                         </form>
-                    </div>
-               </div>
-          </div>
-     );
+const styles = {
+  center: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100vh",
+  },
+  loginForm: {
+    width: "300px",
+    padding: "20px",
+    border: "1px solid #ccc",
+    borderRadius: "5px",
+    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+  },
+  form: {
+    marginTop: "20px",
+  },
+  input: {
+    width: "100%",
+    padding: "8px",
+    marginBottom: "10px",
+    border: "1px solid #ccc",
+    borderRadius: "3px",
+  },
+  errorMessage: {
+    marginTop: "5px",
+    fontSize: "14px",
+    color: "red",
+  },
+  checkboxSection: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: "15px",
+  },
+  formFooter: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  forgotPassword: {
+    fontSize: "14px",
+  },
+  buttonCta: {
+    backgroundColor: "#3498db",
+    color: "#fff",
+    padding: "10px",
+    border: "none",
+    borderRadius: "3px",
+    cursor: "pointer",
+  },
+  registerLink: {
+    marginTop: "15px",
+    textAlign: "center",
+  },
+  socialiteSection: {
+    marginTop: "20px",
+  },
+  socialiteButton: {
+    backgroundColor: "#2ecc71",
+    color: "#fff",
+    padding: "10px",
+    marginRight: "10px",
+    border: "none",
+    borderRadius: "3px",
+    cursor: "pointer",
+  },
 };
 
 export default Login;

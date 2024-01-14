@@ -4,10 +4,10 @@ function Billing() {
   return (
     <div style={{ backgroundColor: "white", paddingTop: "100px" }}>
       <div className="container-fluid">
-        <div className="row flex-row-reverse">
-          <div className=" col-md-6">
-            <div className="head-icon">
-              <img src="/sheled.png" />
+        <div className="row align-items-center flex-row-reverse">
+          <div className="col-md-6">
+            <div className="head-icon text-center mb-4">
+              <img src="/sheled.png" alt="Icon" />
             </div>
             <div className="text-area-sec">
               <span className="heading-1">VTU at Your Fingertips</span>
@@ -16,36 +16,32 @@ function Billing() {
                 Become a boss, earn while sleeping with our mini-bank (VTU)
                 website/app.
               </p>
-              <br />
 
               <div className="realtime-check-activity">
-                <span className="check">
-                  <img src="/check.png" />
+                <span className="">
+                  {/* <img src="/check.png" alt="Check" /> */}✅
                 </span>
                 <span className="check-text">
-                  Bill Payments ,Funds Transfer
+                  Bill Payments, Funds Transfer
                 </span>
-                {/* //,QR payments */}
               </div>
               <br />
 
               <div className="realtime-check-activity">
-                <span className="check">
-                  <img src="/check.png" />
-                </span>
+                <span className="">✅</span>
                 <span className="check-text">
                   Credit card payments and Order food
                 </span>
               </div>
-              {/* <br /> */}
-              <div className="app-download">
-                <img src="/google-play.png" />
-                <img src="/app-store.png" />
+
+              <div className="app-download mt-4">
+                <img src="/google-play.png" alt="Google Play" />
+                <img src="/app-store.png" alt="App Store" />
               </div>
             </div>
           </div>
           <div className="SecondSide-realtime col-md-6">
-            <img className="fa-beat" src="/apps.png" />
+            <img className="img-fluid" src="/apps.png" alt="App Screenshot" />
           </div>
         </div>
       </div>

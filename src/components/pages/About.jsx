@@ -1,13 +1,13 @@
 import React from "react";
-// import Lastsec from "./subComponents/Lastsec";
-import Navbar from '../layouts/Navbar'
+import Navbar from "../layouts/Navbar";
+
 function About() {
   return (
     <div>
       <Navbar />
       <div className="container-fluid About-page">
-        <div className=" row" style={{ paddingTop: "140px" }}>
-          <div className="first-about-sec col-md-6">
+        <div className="row" style={{ paddingTop: "140px" }}>
+          <div className="col-md-6">
             <h1 className="heading-1-1">About Us</h1>
             <br />
             <h1 className="heading-2-2">
@@ -22,60 +22,80 @@ function About() {
               money.
             </p>
 
-            <div className="row" style={{}}>
-              <div className="first-box col-md-4">
-                <h1>
-                  98<span style={{ color: "blue" }}>%</span>
-                </h1>
-                <p>
-                  Customer <br />
-                  satisfaction
-                </p>
+            <div className="row">
+              <div className="col-md-4">
+                <div className="first-box">
+                  <h1>
+                    98<span style={{ color: "blue" }}>%</span>
+                  </h1>
+                  <p>
+                    Customer <br />
+                    satisfaction
+                  </p>
+                </div>
               </div>
-              <div className="first-box col-md-4">
-                <h1>
-                  250<span style={{ color: "blue" }}>M</span>
-                </h1>
-                <p>
-                  Monthly <br />
-                  active users
-                </p>
+              <div className="col-md-4">
+                <div className="first-box">
+                  <h1>
+                    250<span style={{ color: "blue" }}>M</span>
+                  </h1>
+                  <p>
+                    Monthly <br />
+                    active users
+                  </p>
+                </div>
               </div>
-              <div className="first-box col-md-4">
-                <h1>
-                  100<span style={{ color: "blue" }}>K</span>
-                </h1>
-                <p>
-                  New users
-                  <br />
-                  per week
-                </p>
+              <div className="col-md-4">
+                <div className="first-box">
+                  <h1>
+                    100<span style={{ color: "blue" }}>K</span>
+                  </h1>
+                  <p>
+                    New users
+                    <br />
+                    per week
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-          <div
-            className="second-about-sec col-md-6"
-            style={{ marginTop: "700px" }}
-          >
-            <img className="about-img-1" src="/about-img-1.png" />
-            <img className="about-img-2" src="/about-img-2.png" />
-            <img className="about-img-3" src="/about-img-3.png" />
+          <div className="col-md-6 mt-md-5 text-center">
+            <img
+              className="img-fluid about-img"
+              src="/about-img-1.png"
+              alt="About Image 1"
+            />
+            <img
+              className="img-fluid about-img"
+              src="/about-img-2.png"
+              alt="About Image 2"
+            />
+            <img
+              className="img-fluid about-img"
+              src="/about-img-3.png"
+              alt="About Image 3"
+            />
           </div>
         </div>
       </div>
-      <div style={{ paddingTop: "100px" }}>
-        <div className="lastsection2">
+      <div className="mt-5">
+        <div className="lastsection2 text-center">
           <div className="first-sec-last-img">
-            <img src="/get-start.png" />
+            <img
+              src="/get-start.png"
+              alt="Get Started Image"
+              className="img-fluid"
+            />
           </div>
           <div>
             <h3 className="last-sect-title-1-2">Ready to get started?</h3>
             <p className="last-sect-title-2">
               It only takes a few minutes to register your account.
             </p>
-            <button className="last-btn-cta">
-              {" "}
-              <a href="http://">Open an Account</a>
+            <button className="last-btn-cta btn btn-primary">
+              <a href="http://" className="text-white">
+                Open an Account
+              </a>
             </button>
           </div>
         </div>

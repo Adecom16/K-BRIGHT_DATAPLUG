@@ -1,21 +1,15 @@
 import React from "react";
 
-export  function Footer() {
+function Footer() {
   return (
-    <footer style={footerStyle}>
-      <div>
-        <p>&copy; 2023 All Rights Reserved</p>
+    <footer className="bg-primary text-white py-3">
+      <div className="container">
+        <div className="text-center">
+          <p>&copy; {new Date().getFullYear()} All Rights Reserved</p>
+        </div>
       </div>
     </footer>
   );
 }
 
-const footerStyle = {
-  background: "transparent",
-  color: "#222",
-  textAlign: "center",
-  padding: "1rem",
-  // position: "fixed",
-  bottom: "0",
-  // width: "100%",
-};
+export default Footer;

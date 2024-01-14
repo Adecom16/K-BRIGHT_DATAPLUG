@@ -1,52 +1,66 @@
-import "../../App.css";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
- function Navbar() {
-  return (
-    <>
-      <div className="Navbar-section">
-        <div className="Navbar-logo">
-          <a href="/">
-            {/* Tech<span className="x-logo-design">X</span>plorer */}
-            <img className="" src="/logo.png" width={60}/>
-          </a>
-        </div>
+import "../../App.css";
 
-        <div className="Navbar-pages">
-          <ul className="mt-3">
-            <li>
-              <a className="text-cta" href="/">
-                Home
-              </a>
-            </li>
-            <li>
-              <a className="text-cta" href="/about">
-                <NavLink to="/about" className="text-cta" end>
-                  About Us
-                </NavLink>
-              </a>
-            </li>
-            <li>
-              <a className="text-cta" href="">
-                <NavLink to="/contact" className="text-cta" end>
-                  Contact Us
-                </NavLink>
-              </a>
-            </li>
-            <NavLink to="/login" className="text-cta" end>
-              <li className="Nav-button-cta">
-                <a href="">Login</a>
-              </li>
+function Navbar() {
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!isDropdownOpen);
+  };
+
+  return (
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <NavLink to="/" className="navbar-brand">
+        {/* Tech<span className="x-logo-design">X</span>plorer */}
+        <img src="/logo.png" alt="Logo" width={60} />
+      </NavLink>
+
+      <button className="navbar-toggler" type="button" onClick={toggleDropdown}>
+        <span className="navbar-toggler-icon" />
+      </button>
+
+      <div
+        className={`collapse navbar-collapse ${isDropdownOpen ? "show" : ""}`}
+      >
+        <ul className="navbar-nav ml-auto">
+          <li className="nav-item">
+            <NavLink to="/" className="nav-link" activeClassName="active" exact>
+              Home
             </NavLink>
-            <NavLink to="/register" className="text-cta" end>
-              <li className="Nav-button-cta-2">
-                <a href="">Register</a>
-              </li>
+          </li>
+          <li className="nav-item">
+            <NavLink to="/about" className="nav-link" activeClassName="active">
+              About Us
             </NavLink>
-          </ul>
-        </div>
+          </li>
+          <li className="nav-item">
+            <NavLink
+              to="/contact"
+              className="nav-link"
+              activeClassName="active"
+            >
+              Contact Us
+            </NavLink>
+          </li>
+          <li className="nav-item ">
+            <NavLink to="/login" className="nav-link" activeClassName="active">
+              Login
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink
+              to="/register"
+              className="nav-link"
+              activeClassName="active"
+            >
+              Register
+            </NavLink>
+          </li>
+        </ul>
       </div>
-    </>
+    </nav>
   );
 }
 
-export default Navbar
+export default Navbar;

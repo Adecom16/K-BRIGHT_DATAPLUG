@@ -1,11 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?familyJostwght@500&family=Poppins:wght@300;400&family=Roboto:wght@500&display=swap");
 
 body {
-  padding: 0px;
-  margin: 0px;
-  box-sizing: border-box;
-  /* font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif, 'jost'; */
+
   font-family: "jost";
 }
 
@@ -31,10 +27,11 @@ body {
     Lucida Sans ", Arial, sans-serif";
 }
 
-.x-logo-design {
-  color: #1a4dbe;
+.navbar-nav li{
+  /* font-size: 20px; */
+  font-family: 'jost';
+  color: red;
 }
-
 .Navbar-pages {
   position: absolute;
   right: 150px;
@@ -141,7 +138,9 @@ body {
 
 .btn-cta-1 {
   text-decoration: none;
-  padding: 10px 30px 15px;
+  padding: 10px; 
+  height: 40px;
+  width: 300px;
   text-align: center;
   background: #1a4dbe;
   color: white;
@@ -177,9 +176,7 @@ body {
 
 /* ============================== RealTime Notification =============================*/
 
-.realtime-section {
 
-}
 
 .head-icon {
   width: 60px;
@@ -214,15 +211,14 @@ body {
   display: flex;
   gap: 10px;
 }
-.check {
-  min-width: 24px;
-  min-height: 24px;
+/* .check {
+ padding: 7px 4px;
   background: green;
   align-items: center;
   display: flex;
   justify-content: center;
   border-radius: 50%;
-}
+} */
 .check-text {
   font-size: 18px;
   font-weight: 400;
@@ -296,8 +292,8 @@ body {
 }
 .app-download {
   display: flex;
-  gap: 15px;
-  padding: 20px;
+  gap: 7px;
+  /* padding: 20px; */
 }
 
 /* ============================== Loan =============================*/
@@ -329,7 +325,7 @@ body {
   font-weight: bold;
 }
 .test-heading-2 {
-  font-size: 60px;
+  font-size: 40px;
   text-align: center;
   font-weight: bolder;
 }
@@ -505,22 +501,13 @@ body {
 
 .lastsection2 {
   /* margin-top: 0px; */
-  flex-direction: row-reverse;
-  display: flex;
-  border-radius: 20px;
-  justify-content: center;
-  gap: 10rem;
-  height: 40vh;
-  align-items: center;
+  
   background-color: blue;
 }
 
 .last-sect-title-1-2 {
-  font-weight: 700;
-  margin-bottom: 16px;
-  font-size: 43px;
-  line-height: 55.9px;
-  margin-top: -8px;
+
+  font-size: 30px;
   color: white;
 }
 .main-contact {
@@ -528,10 +515,8 @@ body {
   width: 100%;
 }
 
-.Contact-Sec {
+/* .Contact-Sec {
   width: 100%;
-  /* display: flex; */
-  /* gap: 25rem; */
   height: 60vh;
   background-color: rgb(223, 232, 246);
 }
@@ -543,12 +528,10 @@ body {
 }
 .contact-section-img img {
   padding-top: 100px;
-  /* width: 80%; */
-}
+} */
 
-.form-group {
+/* .form-group {
   height: 100vh;
-  /* margin: 7% 13%; */
   background: white;
   border-radius: 20px;
   align-items: center;
@@ -564,8 +547,7 @@ body {
 .form-sec {
   display: grid;
   justify-content: center;
-  /* padding: 2rem 4rem; */
-}
+} */
 .first-cont {
   display: flex;
   gap: 90px;
