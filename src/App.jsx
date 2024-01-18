@@ -28,7 +28,7 @@ import Dashboard from "./components/service/Minicomponents/Dashboard";
 function App() {
   const store = createStore({
     authType:"localstorage", 
-    authName:"music_is_life",
+    authName:"data_is_life",
     cookieDomain: window.location.hostname,
     cookieSecure: window.location.protocol === 'https:',
   });
@@ -51,6 +51,9 @@ function App() {
                 <User/>
               </RequireAuth>
             }
+
+
+            
           >
 
           <Route path="" element={<Dashboard />} />

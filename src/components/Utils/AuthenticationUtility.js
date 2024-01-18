@@ -34,7 +34,6 @@ export default function AuthenticationUtility() {
       "Content-type": "application/json",
       "Accept": "application/json",
       "Authorization": `${authHeader}`,
-      'we_no_dey_play_here':'KOADIT_NAIJA_LOADED_MUSIC_CANNY',
       'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, PUT, POST',
     'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
