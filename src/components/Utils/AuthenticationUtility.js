@@ -65,7 +65,7 @@ export default function AuthenticationUtility() {
     // console.log(auth());
     if(auth !=null){
     try {
-      const response = await http.get('/user/profile');
+      const response = await http.get('/user/get-profile');
       if (response.status === 200) {
         const data = response.data.data;
         setProfile(data); 
