@@ -119,7 +119,7 @@ const Login = () => {
           // }
 
           //  then logim user
-          await login(formData);
+          // await login(formData);
      };
 
      return (

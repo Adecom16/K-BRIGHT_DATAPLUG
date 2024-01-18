@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import AuthenticationUtility from "./AuthenticationUtility";
 
 const Container = styled.div`
   max-width: 400px;
@@ -62,53 +63,77 @@ const AirtimePurchaseForm = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [network, setNetwork] = useState("mtn");
   const [amount, setAmount] = useState("");
+  const { http, profile } = AuthenticationUtility();
 
-  useEffect(() => {
+  // useEffect(() => {
    
-    const token = localStorage.getItem("kbrightdataplug");
-    if (token) {
-      fetchAirtime(token);
-    }
-  }, []); 
+  //   const token = localStorage.getItem("kbrightdataplug");
+  //   if (token) {
+  //     fetchAirtime(token);
+  //   }
+  // }, []); 
 
-  const fetchAirtime = async (token) => {
-    try {
-      const response = await fetch(
-        "https://wirelesspay.ng/airtime/airtime-purchase",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            phoneNumber,
-            network,
-            amount,
-          }),
-        }
-      );
-
-      console.log("Response:", response);
-
-      const data = await response.json();
-      console.log("Airtime purchase successful:", data);
-    } catch (error) {
-  
-      console.error("Error purchasing airtime:", error);
-    }
-  };
-
-  const handlePurchase = (e) => {
+  const handlePurchase = async (e) => {
     e.preventDefault();
+   await http.post('/user/airtime/airtime-purchase', {
+    phone:phoneNumber,
+    amount:amount,
+    network:network,
+    transaction_pin:'1234'
+    })
+    .then(response => {
+      const data = response.data;
+      console.log(data);
+      // if (data.status === 'success') {
+      //   this.isProcessed = true;
+      //   this.message.status = data.status;
+      //   this.message.message = data.message;
+      //   this.isLoading = false;
+      // }
+    })
+    .catch(err => {
+      // this.errors = err.response.data;
+      // this.isLoading = false;
+      console.log(err);
+    });
 
-    const token = localStorage.getItem("kbrightdataplug");
-    if (token) {
-      fetchAirtime(token);
-    } else {
-      console.error("Token not found in localStorage");
-    }
+    // try {
+    //   const response = await fetch(
+    //     "https://wirelesspay.ng/airtime/airtime-purchase",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //       body: JSON.stringify({
+    //         phoneNumber,
+    //         network,
+    //         amount,
+    //       }),
+    //     }
+    //   );
+
+    //   console.log("Response:", response);
+
+    //   const data = await response.json();
+    //   console.log("Airtime purchase successful:", data);
+    // } catch (error) {
+  
+    //   console.error("Error purchasing airtime:", error);
+    // }
   };
+
+  // const handlePurchase = (e) => {
+  //   e.preventDefault();
+
+  //   const token = localStorage.getItem("kbrightdataplug");
+  //   if (token) {
+  //     fetchAirtime(token);
+  //   } else {
+  //     console.error("Token not found in localStorage");
+  //   }
+  // };
 
   return (
     <Container>

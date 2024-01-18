@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import AuthenticationUtility from "./AuthenticationUtility";
 
 const Container = styled.div`
   max-width: 400px;
@@ -73,72 +74,144 @@ const DataBuyForm = () => {
 
   ]);
 
-  const userToken = localStorage.getItem("kbrightdataplug");
+  const { http, profile } = AuthenticationUtility();
+
+
+  const fetchDataPlans = async (network)=>{
+    setDataPlans([]);
+    http.get('/user/data/gifting-data-list?network='+network)
+                        .then(response => {
+
+                         var   data = response.data;
+                            // console.log(data);
+                            setDataPlans(data.data);
+                            console.log(dataPlans);
+                            
+                            // this.isLoading = false;
+                        })
+                        .catch(err => {
+                          var  error = err.response.data;
+                            console.log(error);
+
+                        });
+  }
 
   useEffect(() => {
-    const fetchDataPlans = async () => {
-      try {
-        setLoading(true);
+    // const fetchDataPlans = async () => {
+    //   try {
+    //     setLoading(true);
 
-        const response = await fetch(
-          `https://wirelesspay.ng/api/v1/user/data/all-data-list`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${userToken}`,
-            },
-          }
-        );
+    //     const response = await fetch(
+    //       `https://wirelesspay.ng/api/v1/user/data/all-data-list`,
+    //       {
+    //         method: "GET",
+    //         headers: {
+    //           Authorization: `Bearer ${userToken}`,
+    //         },
+    //       }
+    //     );
 
-        if (!response.ok) {
-          throw new Error(
-            `Failed to fetch data plans. Status: ${response.status}`
-          );
-        }
+    //     if (!response.ok) {
+    //       throw new Error(
+    //         `Failed to fetch data plans. Status: ${response.status}`
+    //       );
+    //     }
 
-        const data = await response.json();
-        setDataPlans(data.plans);
-      } catch (error) {
-        console.error("Error fetching data plans:", error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+    //     const data = await response.json();
+    //     setDataPlans(data.plans);
+    //   } catch (error) {
+    //     console.error("Error fetching data plans:", error.message);
+    //   } finally {
+    //     setLoading(false);
+    //   }
+    // };
 
-    fetchDataPlans();
-  }, [network, userToken, networkOptions]); // Ad
+
+    fetchDataPlans(network);
+  }, [network, networkOptions]); // Ad
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+   await http.post('/user/data/buy-gifting-data', {
+    phone:phoneNumber,
+    plan:dataPlan,
+    network:network,
+    transaction_pin:'2323'
+    })
+    .then(response => {
+      const data = response.data;
+      console.log(data);
+      // if (data.status === 'success') {
+      //   this.isProcessed = true;
+      //   this.message.status = data.status;
+      //   this.message.message = data.message;
+      //   this.isLoading = false;
+      // }
+    })
+    .catch(err => {
+      // this.errors = err.response.data;
+      // this.isLoading = false;
+      console.log(err);
+    });
 
-    try {
-      setLoading(true);
+    // try {
+    //   const response = await fetch(
+    //     "https://wirelesspay.ng/airtime/airtime-purchase",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //       body: JSON.stringify({
+    //         phoneNumber,
+    //         network,
+    //         amount,
+    //       }),
+    //     }
+    //   );
 
-      const response = await fetch(
-        "https://wirelesspay.ng/api/v1/user/data/buy-sme-data",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userToken}`,
-          },
-          body: JSON.stringify({
-            phoneNumber,
-            dataPlan,
-          }),
-        }
-      );
+    //   console.log("Response:", response);
 
-      const data = await response.json();
-
-      console.log("Data purchase successful:", data);
-    } catch (error) {
-      console.error("Error purchasing data:", error.message);
-
-    } finally {
-      setLoading(false);
-    }
+    //   const data = await response.json();
+    //   console.log("Airtime purchase successful:", data);
+    // } catch (error) {
+  
+    //   console.error("Error purchasing airtime:", error);
+    // }
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     setLoading(true);
+
+  //     const response = await fetch(
+  //       "https://wirelesspay.ng/api/v1/user/data/buy-sme-data",
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${userToken}`,
+  //         },
+  //         body: JSON.stringify({
+  //           phoneNumber,
+  //           dataPlan,
+  //         }),
+  //       }
+  //     );
+
+  //     const data = await response.json();
+
+  //     console.log("Data purchase successful:", data);
+  //   } catch (error) {
+  //     console.error("Error purchasing data:", error.message);
+
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <Container>
@@ -178,8 +251,8 @@ const DataBuyForm = () => {
           >
             {dataPlans &&
               dataPlans.map((plan) => (
-                <option key={plan} value={plan}>
-                  {plan}
+                <option key={plan.plan} value={plan.plan}>
+                  {plan.name}
                 </option>
               ))}
           </select>

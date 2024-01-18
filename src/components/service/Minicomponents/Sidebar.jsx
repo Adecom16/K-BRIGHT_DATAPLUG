@@ -51,7 +51,7 @@ const  Sidebar = () =>{
           </a>
         </li>
         <li className="nav-item navhover">
-          <a className="nav-link" href="/performance">
+          <a className="nav-link" href="/dashboard/performance">
             <i className="fa-solid fa-chart-column"></i>
             <span
               style={{
@@ -85,7 +85,7 @@ const  Sidebar = () =>{
           </a>
         </li>
         <li className="nav-item navhover">
-          <a className="nav-link collapsed" href="/airtime">
+          <a className="nav-link collapsed" href="/dashboard/airtime">
             <i className="fas fa-fw fa-phone" />
             <span
               style={{
@@ -101,7 +101,7 @@ const  Sidebar = () =>{
           </a>
         </li>
         <li className="nav-item navhover">
-          <a className="nav-link collapsed" href="data">
+          <a className="nav-link collapsed" href="/dashboard/data">
             <i className="fas fa-fw fa-wifi" />
             <span
               style={{
@@ -118,7 +118,7 @@ const  Sidebar = () =>{
         </li>
 
         <li className="nav-item navhover">
-          <a className="nav-link collapsed" href="/electricity">
+          <a className="nav-link collapsed" href="/dashboard/electricity">
             <i className="fa-solid fa-bolt"></i>
             <span
               style={{
@@ -134,8 +134,9 @@ const  Sidebar = () =>{
           </a>
         </li>
 
+
         <li className="nav-item navhover">
-          <a className="nav-link collapsed" href="/cabletv">
+          <a className="nav-link collapsed" href="/dashboard/cabletv">
             <i className="fa-solid fa-tv"></i>
             <span
               style={{
