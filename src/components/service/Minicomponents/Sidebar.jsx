@@ -20,37 +20,8 @@ const Sidebar = () => {
 
   return (
     <div>
-      <style>
-        {`
-          .navhover a:hover {
-            background-color: #4471f6;
-            color: #fff;
-          }
+     
 
-          @media screen and (max-width: 768px) {
-            #accordionSidebar {
-              display: ${sidebarOpen ? "block" : "none"};
-              position: fixed;
-              top: 0;
-              left: 0;
-              width: 200px;
-              height: 100%;
-              background-color: #3f51b5;
-              overflow-x: hidden;
-              padding-top: 20px;
-              z-index: 1000;
-            }
-
-            .navbar-toggler-icon {
-              color: white;
-            }
-          }
-        `}
-      </style>
-
-      <button className="navbar-toggler" type="button" onClick={toggleSidebar}>
-        <FaBars />
-      </button>
 
       {/* Sidebar */}
       <ul
