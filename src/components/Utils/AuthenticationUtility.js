@@ -27,16 +27,14 @@ export default function AuthenticationUtility() {
     baseURL: API_URL,
     headers: {
       "Content-type": "application/json",
-      "Accept": "application/json",
-      "Authorization": `${authHeader}`,
-      'we_no_dey_play_here':'KOADIT_NAIJA_LOADED_MUSIC_CANNY',
-      'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, PUT, POST',
-    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-
-
-    }
-    
+      Accept: "application/json",
+      Authorization: `${authHeader}`,
+      we_no_dey_play_here: "KOADIT_NAIJA_LOADED_MUSIC_CANNY",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, PUT, POST",
+      "Access-Control-Allow-Headers":
+        "Origin, X-Requested-With, Content-Type, Accept",
+    },
   });
 
   http.interceptors.response.use(
@@ -54,18 +52,18 @@ export default function AuthenticationUtility() {
 
   const fetchUserProfile = async () => {
     // console.log(auth());
-    if(auth !=null){
-    try {
-      const response = await http.get('/user/profile');
-      if (response.status === 200) {
-        const data = response.data.data;
-        setProfile(data); 
-        // Set profile in local state
-        dispatch(setUser(data)); // Dispatch to Redux
+    if (auth != null) {
+      try {
+        const response = await http.get("/user/profile");
+        if (response.status === 200) {
+          const data = response.data.data;
+          setProfile(data);
+          // Set profile in local state
+          dispatch(setUser(data)); // Dispatch to Redux
+        }
+      } catch (error) {
+        //console.error("Error fetching user profile:", error);
       }
-    } catch (error) {
-      //console.error("Error fetching user profile:", error);
-    }
     }
   };
 
