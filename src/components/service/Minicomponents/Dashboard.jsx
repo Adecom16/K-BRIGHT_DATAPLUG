@@ -2,75 +2,84 @@ import React, { useEffect, useState } from "react";
 import "./../dash.css";
 import ApexChart from "./../Minicomponents/Apexchart";
 // import Performance from "./Minicomponents/Performance";
-import Stat from "./../Minicomponents/Stat";
-import DataBuyForm from "./../../Utils/Data";
-import AuthenticationUtility from "../../Utils/AuthenticationUtility";
-import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import Stat from './../Minicomponents/Stat';
+import DataBuyForm from './../../Utils/Data';
 
-const Dashboard = () => {
-  const { http, profile } = AuthenticationUtility();
+const Dashboard =() => {
+     const { user, loading } = useState({});
+     if (loading) {
+          return <div>Loading...</div>;
+     }
+     return (
+        <div className='container'>
+        <div className='row'>
+             <div
+                  className='col-md-6 first-col-md'
+                  style={{ marginTop: '15px' }}
+             >
+                  <h6
+                       style={{
+                            textTransform:
+                                 'uppercase',
+                            color: 'gray',
+                       }}
+                  >
+                       {user?.username}
+                  </h6>
+                  <br />
+                  <h2
+                       style={{
+                            textTransform:
+                                 'uppercase',
+                            width: '200px',
+                            lineHeight: '50px',
+                       }}
+                  >
+                       {user?.name} 👋
+                  </h2>
+                  {/* <br /> */}
+                  <p>
+                       Everything seems ok and
+                       up-to-date with your
+                       account since your last
+                       visit. Would you like to
+                       fund it?
+                  </p>
 
-  const auth = useAuthUser();
-
-  console.log(auth);
-
-  //   if (loading) {
-  //     return <div>Loading...</div>;
-  //   }
-
-  return (
-    <div className="container">
-      <div className="row">
-        <div className="col-md-6">
-          <h6
-            style={{
-              textTransform: "uppercase",
-              color: "gray",
-            }}
-          >
-            {auth?.username}
-          </h6>
-          <br />
-          <h2
-            style={{
-              textTransform: "uppercase",
-              width: "200px",
-              lineHeight: "50px",
-            }}
-          >
-            {auth?.name} 👋
-          </h2>
-          {/* <br /> */}
-          <p>
-            Everything seems ok and up-to-date with your account since your last
-            visit. Would you like to fund it?
-          </p>
-
-          <a href="https://">
-            <button className="btn-cta-3">Fund Account</button>
-          </a>
-        </div>
-        <div className="col-md-6 ">
-          <p style={{ color: "gray" }}>ACCOUNT BALANCE FROM 9183106080</p>
-          <h3>
-            <span>₦</span>3,400.00
-          </h3>
-          <p>
-            <span
-              className="fa fa-arrow-up"
-              style={{
-                color: "green",
-              }}
-            ></span>{" "}
-            ₦0.00 Dec 30, 2023, 2:38:56 PM{" "}
-            <span
-              className="fa fa-arrow-down"
-              style={{
-                color: "red",
-              }}
-            ></span>{" "}
-            ₦0.00
-          </p>
+                  <a href='https://'>
+                       <button className='btn-cta-3'>
+                            Fund Account
+                       </button>
+                  </a>
+             </div>
+             <div
+                  className='col-md-6 second-col-md ms-5'
+                  style={{ marginTop: '15px' }}
+             >
+                  <p style={{ color: 'gray' }}>
+                       ACCOUNT BALANCE FROM
+                       9183106080
+                  </p>
+                  <h3>
+                       <span>₦</span>3,400.00
+                  </h3>
+                  <p>
+                       <span
+                            className='fa fa-arrow-up'
+                            style={{
+                                 color: 'green',
+                            }}
+                       ></span>{' '}
+                       ₦0.00 Dec 30, 2023,
+                       2:38:56 PM{' '}
+                       <span
+                            className='fa fa-arrow-down'
+                            style={{
+                                 color: 'red',
+                            }}
+                       ></span>{' '}
+                       ₦0.00
+                  </p>
 
           <ApexChart />
         </div>
