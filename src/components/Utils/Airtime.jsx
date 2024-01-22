@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import AuthenticationUtility from "./AuthenticationUtility";
+import Swal from "sweetalert2";
 
 const Container = styled.div`
   max-width: 400px;
@@ -62,51 +64,80 @@ const AirtimePurchaseForm = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [network, setNetwork] = useState("mtn");
   const [amount, setAmount] = useState("");
+  const [showPinInput, setShowPinInput] = useState(false);
+  const [transactionPin, setTransactionPin] = useState("");
+  const { http } = AuthenticationUtility();
 
-  useEffect(() => {
-   
-    const token = localStorage.getItem("kbrightdataplug");
-    if (token) {
-      fetchAirtime(token);
+  const handlePurchase = async (e) => {
+    e.preventDefault();
+
+    // Validate input fields
+    if (!phoneNumber || !network || !amount) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Please fill in all fields",
+      });
+      return;
     }
-  }, []); 
 
-  const fetchAirtime = async (token) => {
-    try {
-      const response = await fetch(
-        "https://wirelesspay.ng/airtime/airtime-purchase",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            phoneNumber,
-            network,
-            amount,
-          }),
-        }
-      );
+    // Show SweetAlert to input transaction pin
+    const { value: pin } = await Swal.fire({
+      title: "Enter Transaction Pin",
+      input: "password",
+      inputPlaceholder: "Enter your transaction pin",
+      inputAttributes: {
+        maxlength: 4,
+        autocapitalize: "off",
+        autocorrect: "off",
+      },
+      showCancelButton: true,
+      confirmButtonText: "Confirm",
+      cancelButtonText: "Cancel",
+    });
 
-      console.log("Response:", response);
-
-      const data = await response.json();
-      console.log("Airtime purchase successful:", data);
-    } catch (error) {
-  
-      console.error("Error purchasing airtime:", error);
+    // Check if the user confirmed and entered a pin
+    if (pin) {
+      setTransactionPin(pin);
+      setShowPinInput(true);
     }
   };
 
-  const handlePurchase = (e) => {
-    e.preventDefault();
+  const handleConfirmPurchase = async () => {
+    // Validate transaction pin
+    if (!transactionPin) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Please enter your transaction pin",
+      });
+      return;
+    }
 
-    const token = localStorage.getItem("kbrightdataplug");
-    if (token) {
-      fetchAirtime(token);
-    } else {
-      console.error("Token not found in localStorage");
+    try {
+      const response = await http.post("/user/airtime/airtime-purchase", {
+        phone: phoneNumber,
+        amount: amount,
+        network: network,
+        transaction_pin: transactionPin,
+      });
+      const data = response.data;
+      console.log(data);
+
+      // Display success alert
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: "Airtime purchase successful!",
+      });
+    } catch (err) {
+      // Display error alert
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: err.response?.data?.message || "An error occurred",
+      });
+      console.error(err);
     }
   };
 
@@ -148,7 +179,25 @@ const AirtimePurchaseForm = () => {
             required
           />
         </FormGroup>
+        {/* Conditionally render pin input based on showPinInput */}
+        {showPinInput && (
+          <FormGroup>
+            <label htmlFor="transactionPin">Transaction Pin:</label>
+            <input
+              type="password"
+              id="transactionPin"
+              value={transactionPin}
+              onChange={(e) => setTransactionPin(e.target.value)}
+              placeholder="Enter transaction pin"
+              required
+            />
+          </FormGroup>
+        )}
         <Button type="submit">Purchase Airtime</Button>
+        {/* Conditionally render Confirm Purchase button */}
+        {showPinInput && (
+          <Button onClick={handleConfirmPurchase}>Confirm Purchase</Button>
+        )}
       </Form>
     </Container>
   );

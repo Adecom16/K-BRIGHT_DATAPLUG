@@ -3,7 +3,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 // import { Footer } from "./components/layouts/Footer";
 
-import  HomePage  from "./components/pages/Homepage";
+import HomePage from "./components/pages/Homepage";
 import AboutPage from "./components/pages/About";
 import Contact from "./components/pages/Contact";
 
@@ -18,28 +18,24 @@ import Cable from "../src/components/Utils/Cable";
 
 import ElectricityBillingPage from "./components/Utils/Electricity";
 
-import AuthProvider from 'react-auth-kit';
-import RequireAuth from '@auth-kit/react-router/RequireAuth'
-import createStore from 'react-auth-kit/createStore';
+import AuthProvider from "react-auth-kit";
+import RequireAuth from "@auth-kit/react-router/RequireAuth";
+import createStore from "react-auth-kit/createStore";
 import "./App.css";
-
-import NotFoundPage from './components/pages/404page'
-
 import User from "./components/service/User";
 import Dashboard from "./components/service/Minicomponents/Dashboard";
 
-
 function App() {
   const store = createStore({
-    authType:"localstorage", 
-    authName:"music_is_life",
+    authType: "localstorage",
+    authName: "data_is_life",
     cookieDomain: window.location.hostname,
-    cookieSecure: window.location.protocol === 'https:',
+    cookieSecure: window.location.protocol === "https:",
   });
-  
+
   return (
-  //  <>
-    <AuthProvider  store={store}>
+    //  <>
+    <AuthProvider store={store}>
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -52,19 +48,18 @@ function App() {
             path="/dashboard"
             element={
               <RequireAuth fallbackPath="/login">
-                <User/>
+                <User />
               </RequireAuth>
             }
-
-          />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/performance" element={<Performance />} />
-          <Route path="/data" element={<Data />} />
-          <Route path="/airtime" element={<Airtime />} />
-          <Route path="/cabletv" element={<Cable />} />
-          <Route path="/electricity" element={<ElectricityBillingPage />} />
-               <Route path="*" element={<NotFoundPage />} />
-
+          >
+            <Route path="" element={<Dashboard />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="performance" element={<Performance />} />
+            <Route path="data" element={<Data />} />
+            <Route path="airtime" element={<Airtime />} />
+            <Route path="cabletv" element={<Cable />} />
+            <Route path="electricity" element={<ElectricityBillingPage />} />
+          </Route>
         </Routes>
       </Router>
     </AuthProvider>

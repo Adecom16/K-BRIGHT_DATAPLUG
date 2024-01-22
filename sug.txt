@@ -1,117 +1,74 @@
- <ul
-        className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
-        id="accordionSidebar"
-      >
-        {/* Sidebar - Brand */}
-        <a
-          className="sidebar-brand d-flex align-items-center justify-content-center"
-          href="/dashboard"
-        >
-          <div className="sidebar-brand-icon rotate-n-15">
-            <i className="fas fa-laugh-wink" />
-          </div>
-          <div className="sidebar-brand-text mx-3">
-            K-Bright<sup>data </sup>
-          </div>
-        </a>
-        {/* Divider */}
-        <hr className="sidebar-divider my-0" />
-        {/* Nav Item - Dashboard */}
-        <div className="sidebar-heading">Quick view</div>
+// App.js
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+// import { Footer } from "./components/layouts/Footer";
 
-        {/* <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar"> */}
+import HomePage from "./components/pages/Homepage";
+import AboutPage from "./components/pages/About";
+import Contact from "./components/pages/Contact";
 
-        {/* <hr className="sidebar-divider my-0" /> */}
+import Login from "./components/service/Login";
+import Register from "./components/service/Register";
 
-        <li className="nav-item">
-          <a className="nav-link" href="/dashboard">
-            <i className="fas fa-fw fa-user-alt" />
-            <span>Dashboard</span>
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="/performance">
-            <i className="fas fa-chart-simple"></i>
-            <span>Performance</span>
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="/profile">
-            <i className="fas fa-file-invoice-dollar"></i>
-            <span>Account</span>
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="card.html">
-            <i className="fas fa-credit-card"></i>
-            <span>Card</span>
-          </a>
-        </li>
-        {/* // </ul> */}
-        {/* Divider */}
-        <hr className="sidebar-divider" />
-        {/* Heading */}
-        <div className="sidebar-heading">All Transactions</div>
-        {/* Nav Item - Pages Collapse Menu */}
-        <li className="nav-item">
-          <a className="nav-link collapsed" href="#">
-            <i className="fa-solid fa-hashtag"></i>
-            <span>Soft USSD POS</span>
-          </a>
-        </li>
+import Profile from "../src/components/service/Minicomponents/Profile";
+import Performance from "../src/components/service/Minicomponents/Performance";
+import Data from "../src/components/Utils/Data";
+import Airtime from "../src/components/Utils/Airtime";
+import Cable from "../src/components/Utils/Cable";
 
-        <li className="nav-item">
-          <a className="nav-link collapsed" href="#">
-            <i className="fa-solid fa-money-bill-transfer"></i>
-            <span>Bank Transfer</span>
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link collapsed" href="#">
-            <i className="fa-solid fa-wallet"></i>
-            <span>Wallet Transfer</span>
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link collapsed" href="#">
-            <i className="fas fa-fw fa-phone" />
-            <span>Airtime Subscription</span>
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link collapsed" href="#">
-            <i className="fas fa-fw fa-wifi" />
-            <span>Data Subscription</span>
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link collapsed" href="#">
-            <i className="fa-solid fa-landmark"></i>
-            <span>Loan</span>
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link collapsed" href="#">
-            <i className="fas fa-fw fa-wrench" />
-            <span>POS</span>
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link collapsed" href="#">
-            <i className="fa-solid fa-network-wired"></i>
-            <span>Network</span>
-          </a>
-        </li>
-        <br />
-        <br />
-        <li className="nav-item">
-          <a className="nav-link collapsed" href="#">
-            <i className="fa-solid fa-arrow-right-from-bracket"></i>
-            <span>Logout</span>
-          </a>
-        </li>
+import ElectricityBillingPage from "./components/Utils/Electricity";
 
-        {/* Divider */}
-        <hr className="sidebar-divider d-none d-md-block" />
-        {/* Sidebar Toggler (Sidebar) */}
-      </ul>
+import AuthProvider from "react-auth-kit";
+import RequireAuth from "@auth-kit/react-router/RequireAuth";
+import createStore from "react-auth-kit/createStore";
+import "./App.css";
+import User from "./components/service/User";
+import Dashboard from "./components/service/Minicomponents/Dashboard";
+
+function App() {
+  const store = createStore({
+    authType: "localstorage",
+    authName: "data_is_life",
+    cookieDomain: window.location.hostname,
+    cookieSecure: window.location.protocol === "https:",
+  });
+
+  return (
+    //  <>
+    <AuthProvider store={store}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
+          <Route
+            path="/dashboard"
+            element={
+              <RequireAuth fallbackPath="/login">
+                <User />
+              </RequireAuth>
+            }
+          >
+            <Route path="" element={<Dashboard />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="performance" element={<Performance />} />
+            <Route path="data" element={<Data />} />
+            <Route path="airtime" element={<Airtime />} />
+            <Route path="cabletv" element={<Cable />} />
+            <Route path="electricity" element={<ElectricityBillingPage />} />
+            
+          </Route>
+        </Routes>
+      </Router>
+    </AuthProvider>
+    // </>
+  );
+}
+
+export default App;
+
+
+

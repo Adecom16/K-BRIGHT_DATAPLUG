@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import AuthenticationUtility from "./AuthenticationUtility";
+import Swal from "sweetalert2";
 
 const Container = styled.div`
   max-width: 400px;
@@ -70,73 +72,75 @@ const DataBuyForm = () => {
     { value: "etisalat", label: "Etisalat" },
     { value: "airtel", label: "Airtel" },
     { value: "glo", label: "Glo" },
-
   ]);
 
-  const userToken = localStorage.getItem("kbrightdataplug");
+  const { http, profile } = AuthenticationUtility();
+
+  const fetchDataPlans = async (network) => {
+    setDataPlans([]);
+    http
+      .get("/user/data/gifting-data-list?network=" + network)
+      .then((response) => {
+        var data = response.data;
+        setDataPlans(data.data);
+      })
+      .catch((err) => {
+        var error = err.response.data;
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
-    const fetchDataPlans = async () => {
-      try {
-        setLoading(true);
-
-        const response = await fetch(
-          `https://wirelesspay.ng/api/v1/user/data/all-data-list`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${userToken}`,
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(
-            `Failed to fetch data plans. Status: ${response.status}`
-          );
-        }
-
-        const data = await response.json();
-        setDataPlans(data.plans);
-      } catch (error) {
-        console.error("Error fetching data plans:", error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDataPlans();
-  }, [network, userToken, networkOptions]); // Ad
+    fetchDataPlans(network);
+  }, [network, networkOptions]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      setLoading(true);
+    // Display SweetAlert for transaction pin input
+    const { value: pin } = await Swal.fire({
+      title: "Enter your transaction pin",
+      input: "password",
+      inputPlaceholder: "Enter your pin",
+      inputAttributes: {
+        maxlength: 4,
+      },
+      showCancelButton: true,
+      confirmButtonText: "Submit",
+    });
 
-      const response = await fetch(
-        "https://wirelesspay.ng/api/v1/user/data/buy-sme-data",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userToken}`,
-          },
-          body: JSON.stringify({
-            phoneNumber,
-            dataPlan,
-          }),
-        }
-      );
+    if (pin) {
+      // Perform the data purchase
+      try {
+        setLoading(true);
+        const response = await http.post("/user/data/buy-gifting-data", {
+          phone: phoneNumber,
+          plan: dataPlan,
+          network: network,
+          transaction_pin: pin,
+        });
+        const data = response.data;
+        console.log(data);
 
-      const data = await response.json();
+        // Display success alert
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Data purchase successful!",
+        });
+      } catch (err) {
+        // Log detailed error information
+        console.error("Error:", err);
 
-      console.log("Data purchase successful:", data);
-    } catch (error) {
-      console.error("Error purchasing data:", error.message);
-
-    } finally {
-      setLoading(false);
+        // Display error alert
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: err.response?.data?.message || "An error occurred",
+        });
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -178,8 +182,8 @@ const DataBuyForm = () => {
           >
             {dataPlans &&
               dataPlans.map((plan) => (
-                <option key={plan} value={plan}>
-                  {plan}
+                <option key={plan.plan} value={plan.plan}>
+                  {plan.name}
                 </option>
               ))}
           </select>

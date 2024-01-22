@@ -1,26 +1,66 @@
-import React from 'react'
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import {
+  FaTachometerAlt,
+  FaChartBar,
+  FaPhone,
+  FaWifi,
+  FaBolt,
+  FaTv,
+  FaArrowRight,
+  FaBars,
+} from "react-icons/fa";
 
-const  Sidebar = () =>{
+const Sidebar = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   return (
     <div>
       <style>
         {`
-            .navhover a:hover {
-              background-color: #4471f6; /* Change the background color on hover */
-              color: #fff; /* Change the text color on hover */
+          .navhover a:hover {
+            background-color: #4471f6;
+            color: #fff;
+          }
+
+          @media screen and (max-width: 768px) {
+            #accordionSidebar {
+              display: ${sidebarOpen ? "block" : "none"};
+              position: fixed;
+              top: 0;
+              left: 0;
+              width: 200px;
+              height: 100%;
+              background-color: #3f51b5;
+              overflow-x: hidden;
+              padding-top: 20px;
+              z-index: 1000;
             }
-          `}
+
+            .navbar-toggler-icon {
+              color: white;
+            }
+          }
+        `}
       </style>
+
+      <button className="navbar-toggler" type="button" onClick={toggleSidebar}>
+        <FaBars />
+      </button>
+
       {/* Sidebar */}
       <ul
-        style={{ postion: "fixed" }}
-        className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
         id="accordionSidebar"
+        className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
       >
         {/* Sidebar - Brand */}
         <a
           className="sidebar-brand d-flex align-items-center justify-content-center"
-          href="/dashboard"
+          to="/dashboard"
         >
           <div className="sidebar-brand-icon rotate-n-15"></div>
           <div className="sidebar-brand-text mx-3">
@@ -35,139 +75,52 @@ const  Sidebar = () =>{
         <br />
 
         <li className="nav-item navhover">
-          <a className="nav-link" href="/dashboard">
-            <i className="fa-solid fa-gauge"></i>
-            <span
-              style={{
-                color: "white",
-
-                fontSize: "15px",
-                marginLeft: "10px",
-                marginRight: "10px",
-              }}
-            >
-              Dashboard
-            </span>
-          </a>
+          <Link className="nav-link" to="/dashboard">
+            <FaTachometerAlt />
+            <span style={styles.navText}>Dashboard</span>
+          </Link>
         </li>
         <li className="nav-item navhover">
-          <a className="nav-link" href="/performance">
-            <i className="fa-solid fa-chart-column"></i>
-            <span
-              style={{
-                color: "white",
-
-                fontSize: "15px",
-                marginLeft: "10px",
-                marginRight: "10px",
-              }}
-            >
-              {" "}
-              Transaction
-            </span>
-          </a>
+          <Link className="nav-link" to="performance">
+            <FaChartBar />
+            <span style={styles.navText}>Transaction</span>
+          </Link>
         </li>
 
         <li className="nav-item navhover">
-          <a className="nav-link collapsed" href="#">
-            <i className="fa-solid fa-wallet"></i>
-            <span
-              style={{
-                color: "white",
-
-                fontSize: "15px",
-                marginLeft: "10px",
-                marginRight: "10px",
-              }}
-            >
-              Wallet Transfer
-            </span>
-          </a>
+          <Link className="nav-link collapsed" to="airtime">
+            <FaPhone />
+            <span style={styles.navText}>Airtime</span>
+          </Link>
         </li>
         <li className="nav-item navhover">
-          <a className="nav-link collapsed" href="/airtime">
-            <i className="fas fa-fw fa-phone" />
-            <span
-              style={{
-                color: "white",
-
-                fontSize: "15px",
-                marginLeft: "10px",
-                marginRight: "10px",
-              }}
-            >
-              Airtime
-            </span>
-          </a>
-        </li>
-        <li className="nav-item navhover">
-          <a className="nav-link collapsed" href="data">
-            <i className="fas fa-fw fa-wifi" />
-            <span
-              style={{
-                color: "white",
-
-                fontSize: "15px",
-                marginLeft: "10px",
-                marginRight: "10px",
-              }}
-            >
-              Data
-            </span>
-          </a>
+          <Link className="nav-link collapsed" to="data">
+            <FaWifi />
+            <span style={styles.navText}>Data</span>
+          </Link>
         </li>
 
         <li className="nav-item navhover">
-          <a className="nav-link collapsed" href="/electricity">
-            <i className="fa-solid fa-bolt"></i>
-            <span
-              style={{
-                color: "white",
-
-                fontSize: "15px",
-                marginLeft: "10px",
-                marginRight: "10px",
-              }}
-            >
-              Electricity
-            </span>
-          </a>
+          <Link className="nav-link collapsed" to="electricity">
+            <FaBolt />
+            <span style={styles.navText}>Electricity</span>
+          </Link>
         </li>
 
         <li className="nav-item navhover">
-          <a className="nav-link collapsed" href="/cabletv">
-            <i className="fa-solid fa-tv"></i>
-            <span
-              style={{
-                color: "white",
-
-                fontSize: "15px",
-                marginLeft: "10px",
-                marginRight: "10px",
-              }}
-            >
-              Cable Tv
-            </span>
-          </a>
+          <Link className="nav-link collapsed" to="cabletv">
+            <FaTv />
+            <span style={styles.navText}>Cable Tv</span>
+          </Link>
         </li>
 
         <br />
         <br />
         <li className="nav-item navhover">
-          <a className="nav-link collapsed" href="#">
-            <i className="fa-solid fa-arrow-right-from-bracket"></i>
-            <span
-              style={{
-                color: "white",
-
-                fontSize: "15px",
-                marginLeft: "10px",
-                marginRight: "10px",
-              }}
-            >
-              Logout
-            </span>
-          </a>
+          <Link className="nav-link collapsed" to="#">
+           <FaArrowRight />
+            <span style={styles.navText}>Logout</span>
+          </Link>
         </li>
 
         {/* Divider */}
@@ -176,6 +129,15 @@ const  Sidebar = () =>{
       </ul>
     </div>
   );
-}
+};
 
-export default Sidebar
+const styles = {
+  navText: {
+    color: "white",
+    fontSize: "15px",
+    marginLeft: "10px",
+    marginRight: "10px",
+  },
+};
+
+export default Sidebar;

@@ -1,5 +1,10 @@
+// ElectricityBillingPage.js
+
 import React, { useState } from "react";
 import styled from "styled-components";
+import Swal from "sweetalert2";
+import AuthenticationUtility from "./AuthenticationUtility";
+import FormInput from "./FormInput";
 
 const Container = styled.div`
   max-width: 400px;
@@ -19,27 +24,6 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const FormGroup = styled.div`
-  margin-bottom: 20px;
-  width: 100%;
-
-  label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #555;
-  }
-
-  input,
-  select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-  }
 `;
 
 const Button = styled.button`
@@ -65,33 +49,19 @@ const ElectricityBillingPage = () => {
   const [amount, setAmount] = useState("");
   const [transactionPin, setTransactionPin] = useState("");
 
+  const { http } = AuthenticationUtility();
+
   const handleVerify = async (e) => {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem("kbrightdataplug");
-      if (!token) {
-        console.error("Token not found in localStorage");
-        return;
-      }
+      const response = await http.post("/user/electricity/verify", {
+        type,
+        company_code: companyCode,
+        meter_number: meterNumber,
+      });
 
-      const formData = new FormData();
-      formData.append("type", type);
-      formData.append("company_code", companyCode);
-      formData.append("meter_number", meterNumber);
-
-      const response = await fetch(
-        "https://wirelesspay.ng/user/electricity/verify",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
-
-      const data = await response.json();
+      const data = response.data;
       console.log("Electricity verification successful:", data);
     } catch (error) {
       console.error("Error verifying electricity:", error);
@@ -101,91 +71,96 @@ const ElectricityBillingPage = () => {
   const handlePurchase = async (e) => {
     e.preventDefault();
 
-    try {
-      const token = localStorage.getItem("kbrightdataplug");
-      if (!token) {
-        console.error("Token not found in localStorage");
-        return;
+    // Display SweetAlert for transaction pin input
+    const { value: pin } = await Swal.fire({
+      title: "Enter your transaction pin",
+      input: "password",
+      inputPlaceholder: "Enter your pin",
+      inputAttributes: {
+        maxlength: 4,
+      },
+      showCancelButton: true,
+      confirmButtonText: "Submit",
+    });
+
+    if (pin) {
+      // Perform the electricity purchase
+      try {
+        const response = await http.post("/user/electricity/purchase", {
+          type,
+          company_code: companyCode,
+          meter_number: meterNumber,
+          amount,
+          transaction_pin: pin,
+          debit_from: "",
+        });
+
+        const data = response.data;
+        console.log("Electricity purchase successful:", data);
+
+        // Display success alert
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Electricity purchase successful!",
+        });
+      } catch (error) {
+        // Log detailed error information
+        console.error("Error purchasing electricity:", error);
+
+        // Display error alert
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.response?.data?.message || "An error occurred",
+        });
       }
-
-      const formData = new FormData();
-      formData.append("type", type);
-      formData.append("company_code", companyCode);
-      formData.append("meter_number", meterNumber);
-      formData.append("amount", amount);
-      formData.append("transaction_pin", transactionPin);
-      formData.append("debit_from", "");
-
-      const response = await fetch(
-        "https://wirelesspay.ng/user/electricity/purchase",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
-
-      const data = await response.json();
-      console.log("Electricity purchase successful:", data);
-    } catch (error) {
-      console.error("Error purchasing electricity:", error);
     }
   };
 
   return (
     <Container>
-      <Title>Electricity Billing </Title>
+      <Title>Electricity Billing</Title>
       <Form>
-        <FormGroup>
-          <label>Type:</label>
-          <select value={type} onChange={(e) => setType(e.target.value)}>
-            <option value="prepaid">Prepaid</option>
-            <option value="postpaid">Postpaid</option>
-          </select>
-        </FormGroup>
-        <FormGroup>
-          <label>Company Code:</label>
-          <input
-            type="text"
-            value={companyCode}
-            onChange={(e) => setCompanyCode(e.target.value)}
-            placeholder="Enter company code"
-            required
-          />
-        </FormGroup>
-        <FormGroup>
-          <label>Meter Number:</label>
-          <input
-            type="text"
-            value={meterNumber}
-            onChange={(e) => setMeterNumber(e.target.value)}
-            placeholder="Enter meter number"
-            required
-          />
-        </FormGroup>
+        <FormInput
+          label="Type"
+          type="select"
+          value={type}
+          onChange={(e) => setType(e.target.value)}
+          options={[
+            { value: "prepaid", label: "Prepaid" },
+            { value: "postpaid", label: "Postpaid" },
+          ]}
+        />
+        <FormInput
+          label="Company Code"
+          type="text"
+          value={companyCode}
+          onChange={(e) => setCompanyCode(e.target.value)}
+          placeholder="Enter company code"
+        />
+        <FormInput
+          label="Meter Number"
+          type="text"
+          value={meterNumber}
+          onChange={(e) => setMeterNumber(e.target.value)}
+          placeholder="Enter meter number"
+        />
         <Button onClick={handleVerify}>Verify</Button>
-        <FormGroup>
-          <label>Amount:</label>
-          <input
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            placeholder="Enter amount"
-            required
-          />
-        </FormGroup>
-        <FormGroup>
-          <label>Transaction Pin:</label>
-          <input
-            type="password"
-            value={transactionPin}
-            onChange={(e) => setTransactionPin(e.target.value)}
-            placeholder="Enter transaction pin"
-            required
-          />
-        </FormGroup>
+        <FormInput
+          label="Amount"
+          type="number"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          placeholder="Enter amount"
+        />
+        {/* <FormInput
+          label="Transaction Pin"
+          type="password"
+          value={transactionPin}
+          onChange={(e) => setTransactionPin(e.target.value)}
+          placeholder="Enter transaction pin"
+        /> */}
         <Button onClick={handlePurchase}>Purchase Electricity</Button>
       </Form>
     </Container>
