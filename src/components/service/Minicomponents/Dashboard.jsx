@@ -42,7 +42,7 @@ const Dashboard = () => {
             <button className="btn-cta-3">Fund Account</button>
           </a>
         </div>
-        <div className="col-md-6 ms-5">
+        <div className="col-md-6 ">
           <p style={{ color: "gray" }}>ACCOUNT BALANCE FROM 9183106080</p>
           <h3>
             <span>₦</span>3,400.00
