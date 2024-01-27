@@ -1,248 +1,325 @@
-import { useState } from 'react';
-// import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
+import { useState } from "react";
+import AuthenticationUtility from "../Utils/AuthenticationUtility";
+import { useNavigate, Link } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
+import Swal from "sweetalert2"; // Import SweetAlert
+import styled from "styled-components";
 
+const StyledContainer = styled.div`
+  background-color: #f9f9f9;
+  padding: 50px;
+  font-family: Arial, sans-serif;
+`;
+
+const StyledForm = styled.form`
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+`;
+
+const StyledTitle = styled.h1`
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+`;
+
+const StyledInput = styled.input`
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+`;
+
+const ErrorText = styled.div`
+  color: red;
+  font-size: 14px;
+  margin-bottom: 15px;
+`;
+
+const SubmitButton = styled.button`
+  background-color: #007bff;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const StyledLink = styled(Link)`
+  color: #007bff;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 const Register = () => {
-     const [formData, setFormData] = useState({});
-     const { loading, signup } = useAuth();
+  const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
+  const { http } = AuthenticationUtility();
+  const navigate = useNavigate();
 
-     const [formErrors, setFormErrors] = useState({});
+  const handleChange = (e) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
-     const handleChange = (e) => {
-          setFormData((data) => ({
-               ...data,
-               [e.target.name]: e.target.value,
-          }));
-     };
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setFormErrors({});
 
-     const handleRegister = async (e) => {
-          e.preventDefault();
+    const requiredFields = [
+      "name",
+      "email",
+      "password",
+      "confirmPassword",
+      "username",
+      "gender",
+      "nin",
+      "phone",
+    ];
+    requiredFields.forEach((field) => {
+      if (!formData[field]) {
+        setFormErrors((prevErrors) => ({
+          ...prevErrors,
+          [field]: `Please provide ${
+            field === "confirmPassword" ? "a confirmation" : "your"
+          } ${field}`,
+        }));
+      }
+    });
 
-          //  Validating user inputs
-          if (!formData.name) {
-               setFormErrors((form) => ({
-                    ...form,
-                    name: 'Please provide your name',
-               }));
-          }
+    if (formData.phone && !/^\d{11}$/.test(formData.phone)) {
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        phone: "Please provide a valid 11-digit phone number",
+      }));
+      setLoading(false);
+      return;
+    }
 
-          if (!formData.email) {
-               setFormErrors((form) => ({
-                    ...form,
-                    email: 'Please provide your email',
-               }));
-               return;
-          }
+    if (formData.nin && !/^\d{9}$/.test(formData.nin)) {
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        nin: "Please provide a valid 9-digit National Identity Number",
+      }));
+      setLoading(false);
+      return;
+    }
 
-          //  then signup user
-          await signup(formData);
-     };
+    if (formData.password !== formData.confirmPassword) {
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        confirmPassword: "Passwords do not match",
+      }));
+      setLoading(false);
+      return;
+    }
 
-     return (
-          <div className='center'>
-               <div className='login-form'>
-                    <h1>Register</h1>
+    try {
+      const res = await http.post("/register", formData);
+      const data = res.data;
 
-                    <div className='form'>
-                         <form onSubmit={handleRegister}>
-                              <label htmlFor='name'>Name</label>
-                              <br />
-                              <input
-                                   size={43}
-                                   type='text'
-                                   id='name'
-                                   name='name'
-                                   // value={formData.name}
-                                   onChange={handleChange}
-                                   className={formErrors.name ? 'error' : ''}
-                              />
-                              {formErrors.name && (
-                                   <span
-                                        className='error-message'
-                                        style={{
-                                             color: 'red',
-                                             fontSize: '14px',
-                                        }}
-                                   >
-                                        {formErrors.name}
-                                   </span>
-                              )}
+      Swal.fire({
+        icon: "success",
+        title: "Registration successful",
+        showConfirmButton: false,
+        timer: 1500,
+      }).then(() => navigate("/login"));
+    } catch (err) {
+      setFormErrors(err?.response?.data || {});
+      Swal.fire({
+        icon: "error",
+        title: "Registration failed",
+        text: "Invalid Data. Please input the right information.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
-                              <div>
-                                   <label htmlFor='email'>Email</label>
-                                   <br />
-                                   <input
-                                        size={43}
-                                        type='email'
-                                        id='email'
-                                        name='email'
-                                        //  value={formData.email}
-                                        onChange={handleChange}
-                                        className={
-                                             formErrors.email ? 'error' : ''
-                                        }
-                                   />
-                                   {formErrors.email && (
-                                        <span
-                                             className='error-message'
-                                             style={{
-                                                  color: 'red',
-                                                  fontSize: '14px',
-                                             }}
-                                        >
-                                             {formErrors.email}
-                                        </span>
-                                   )}
-                              </div>
+  return (
+    <StyledContainer>
+      <StyledForm onSubmit={handleRegister}>
+        <StyledTitle>Register</StyledTitle>
+        {/* Your form inputs */}
+        <div className="form-group">
+          <label htmlFor="name">Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            onChange={handleChange}
+            className={`form-control ${formErrors.name && "is-invalid"}`}
+          />
+          {formErrors.name && (
+            <div className="invalid-feedback">{formErrors.name}</div>
+          )}
+        </div>
 
-                              <label htmlFor='password'>Password</label>
-                              <br />
-                              <input
-                                   size={43}
-                                   type='password'
-                                   id='password'
-                                   name='password'
-                                   //  value={formData.password}
-                                   onChange={handleChange}
-                                   className={
-                                        formErrors.password ? 'error' : ''
-                                   }
-                              />
-                              {formErrors.password && (
-                                   <p className='error-message'>
-                                        {formErrors.password}
-                                   </p>
-                              )}
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            onChange={handleChange}
+            className={`form-control ${formErrors.email && "is-invalid"}`}
+          />
+          {formErrors.email && (
+            <div className="invalid-feedback">{formErrors.email}</div>
+          )}
+        </div>
 
-                              <label htmlFor='confirmPassword'>
-                                   Confirm Password
-                              </label>
-                              <br />
-                              <input
-                                   size={43}
-                                   type='password'
-                                   id='confirmPassword'
-                                   name='confirmPassword'
-                                   //  value={formData.confirmPassword}
-                                   onChange={handleChange}
-                                   className={
-                                        formErrors.confirmPassword
-                                             ? 'error'
-                                             : ''
-                                   }
-                              />
-                              {formErrors.confirmPassword && (
-                                   <p className='error-message'>
-                                        {formErrors.confirmPassword}
-                                   </p>
-                              )}
+        {/* Password */}
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            onChange={handleChange}
+            className={`form-control ${formErrors.password && "is-invalid"}`}
+          />
+          {formErrors.password && (
+            <div className="invalid-feedback">{formErrors.password}</div>
+          )}
+        </div>
 
-                              <label htmlFor='referral'>Referral Code</label>
-                              <br />
-                              <input
-                                   size={43}
-                                   type='text'
-                                   id='referral'
-                                   name='referral'
-                                   //  value={formData.referral}
-                                   onChange={handleChange}
-                                   className={
-                                        formErrors.referral ? 'error' : ''
-                                   }
-                              />
-                              {formErrors.referral && (
-                                   <p className='error-message'>
-                                        {formErrors.referral}
-                                   </p>
-                              )}
+        {/* Confirm Password */}
+        <div className="form-group">
+          <label htmlFor="confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            onChange={handleChange}
+            className={`form-control ${
+              formErrors.confirmPassword && "is-invalid"
+            }`}
+          />
+          {formErrors.confirmPassword && (
+            <div className="invalid-feedback">{formErrors.confirmPassword}</div>
+          )}
+        </div>
 
-                              <label htmlFor='username'>Username</label>
-                              <br />
-                              <input
-                                   size={43}
-                                   type='text'
-                                   id='username'
-                                   name='username'
-                                   //  value={formData.username}
-                                   onChange={handleChange}
-                                   className={
-                                        formErrors.username ? 'error' : ''
-                                   }
-                              />
-                              {formErrors.username && (
-                                   <p className='error-message'>
-                                        {formErrors.username}
-                                   </p>
-                              )}
+        {/* Referral Code */}
+        <div className="form-group">
+          <label htmlFor="referral">Referral Code</label>
+          <input
+            type="text"
+            id="referral"
+            name="referral"
+            onChange={handleChange}
+            className={`form-control ${formErrors.referral && "is-invalid"}`}
+          />
+          {formErrors.referral && (
+            <div className="invalid-feedback">{formErrors.referral}</div>
+          )}
+        </div>
 
-                              <label htmlFor='gender'>Gender</label>
-                              <br />
-                              <select
-                                   id='gender'
-                                   name='gender'
-                                   //  value={formData.gender}
-                                   onChange={handleChange}
-                                   className={formErrors.gender ? 'error' : ''}
-                              >
-                                   <option value='male'>Male</option>
-                                   <option value='female'>Female</option>
-                              </select>
-                              {formErrors.gender && (
-                                   <p className='error-message'>
-                                        {formErrors.gender}
-                                   </p>
-                              )}
+        {/* Username */}
+        <div className="form-group">
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            onChange={handleChange}
+            className={`form-control ${formErrors.username && "is-invalid"}`}
+          />
+          {formErrors.username && (
+            <div className="invalid-feedback">{formErrors.username}</div>
+          )}
+        </div>
 
-                              <br />
-                              <label htmlFor='nin'>
-                                   National Identity Number
-                              </label>
-                              <br />
-                              <input
-                                   size={43}
-                                   type='text'
-                                   id='nin'
-                                   name='nin'
-                                   //  value={formData.nin}
-                                   onChange={handleChange}
-                                   className={formErrors.nin ? 'error' : ''}
-                              />
-                              {formErrors.nin && (
-                                   <p className='error-message'>
-                                        {formErrors.nin}
-                                   </p>
-                              )}
+        {/* Gender */}
+        <div className="form-group">
+          <label htmlFor="gender">Gender</label>
+          <select
+            id="gender"
+            name="gender"
+            onChange={handleChange}
+            className={`form-control ${formErrors.gender && "is-invalid"}`}
+          >
+            <option value="male">--Select Gender--</option>
 
-                              <label htmlFor='phone'>Phone</label>
-                              <br />
-                              <input
-                                   size={43}
-                                   type='text'
-                                   id='phone'
-                                   name='phone'
-                                   //  value={formData.phone}
-                                   onChange={handleChange}
-                                   className={formErrors.phone ? 'error' : ''}
-                              />
-                              {formErrors.phone && (
-                                   <p className='error-message'>
-                                        {formErrors.phone}
-                                   </p>
-                              )}
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+          {formErrors.gender && (
+            <div className="invalid-feedback">{formErrors.gender}</div>
+          )}
+        </div>
 
-                              <br />
-                              <button
-                                   className='button-cta'
-                                   type='submit'
-                                   disabled={loading}
-                              >
-                                   {loading ? 'Registering...' : 'Register'}
-                              </button>
-                         </form>
-                    </div>
-               </div>
-          </div>
-     );
+        {/* National Identity Number */}
+        <div className="form-group">
+          <label htmlFor="nin">National Identity Number</label>
+          <input
+            type="text"
+            id="nin"
+            name="nin"
+            onChange={handleChange}
+            className={`form-control ${formErrors.nin && "is-invalid"}`}
+          />
+          {formErrors.nin && (
+            <div className="invalid-feedback">{formErrors.nin}</div>
+          )}
+        </div>
+
+        {/* Phone */}
+        <div className="form-group">
+          <label htmlFor="phone">Phone</label>
+          <input
+            type="text"
+            id="phone"
+            name="phone"
+            onChange={handleChange}
+            className={`form-control ${formErrors.phone && "is-invalid"}`}
+          />
+          {formErrors.phone && (
+            <div className="invalid-feedback">{formErrors.phone}</div>
+          )}
+        </div>
+        {/* <StyledInput
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Your Name"
+          onChange={handleChange}
+          className={formErrors.name ? "error" : ""}
+        />
+        {formErrors.name && <ErrorText>{formErrors.name}</ErrorText>}
+        Other input fields */}
+        <SubmitButton type="submit" disabled={loading}>
+          {loading ? <Spinner animation="border" /> : "Register"}
+        </SubmitButton>
+        <p>
+          Already have an account?{" "}
+          <StyledLink to="/login">Login here</StyledLink>
+        </p>
+      </StyledForm>
+    </StyledContainer>
+  );
 };
 
+
+
 export default Register;
+

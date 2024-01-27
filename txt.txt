@@ -121,3 +121,234 @@ const Stat = () => {
 };
 
 export default Stat;
+
+const handleRegister = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+
+  // Reset form errors
+  setFormErrors({});
+
+  // Validate form fields
+  const requiredFields = ["name", "email", "password", "confirmPassword", "username", "gender", "nin", "phone"];
+  requiredFields.forEach((field) => {
+    if (!formData[field]) {
+      setFormErrors((form) => ({
+        ...form,
+        [field]: `Please provide ${field === "confirmPassword" ? "a confirmation" : "your"} ${field}`,
+      }));
+    }
+  });
+
+  // Additional validation for specific fields
+  if (formData.phone && !/^\d{10}$/.test(formData.phone)) {
+    setFormErrors((form) => ({
+      ...form,
+      phone: "Please provide a valid 10-digit phone number",
+    }));
+    setLoading(false);
+    return;
+  }
+
+  if (formData.nin && !/^\d{9}$/.test(formData.nin)) {
+    setFormErrors((form) => ({
+      ...form,
+      nin: "Please provide a valid 9-digit National Identity Number",
+    }));
+    setLoading(false);
+    return;
+  }
+
+  // Perform additional validation for other specific fields if needed...
+
+  // Check if password and confirm password match
+  if (formData.password !== formData.confirmPassword) {
+    setFormErrors((form) => ({
+      ...form,
+      confirmPassword: "Passwords do not match",
+    }));
+    setLoading(false);
+    return;
+  }
+
+  try {
+    // Make a request to your server's registration endpoint
+    const res = await http.post("/register", formData);
+    const data = res.data;
+
+    // Handle successful registration
+    Swal.fire({
+      icon: "success",
+      title: "Registration successful",
+      showConfirmButton: false,
+      timer: 1500,
+    }).then(() => navigate("/login")); // Redirect to login after registration
+
+  } catch (err) {
+    // Handle registration failure
+    setFormErrors(err?.response?.data || {});
+    Swal.fire({
+      icon: "error",
+      title: "Registration failed",
+      text: "An error occurred. Please try again later.",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
+
+ <form onSubmit={handleRegister}>
+          <div className="form-group">
+            <label htmlFor="name">Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              onChange={handleChange}
+              className={`form-control ${formErrors.name && "is-invalid"}`}
+            />
+            {formErrors.name && (
+              <div className="invalid-feedback">{formErrors.name}</div>
+            )}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              onChange={handleChange}
+              className={`form-control ${formErrors.email && "is-invalid"}`}
+            />
+            {formErrors.email && (
+              <div className="invalid-feedback">{formErrors.email}</div>
+            )}
+          </div>
+
+          {/* Password */}
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              onChange={handleChange}
+              className={`form-control ${formErrors.password && "is-invalid"}`}
+            />
+            {formErrors.password && (
+              <div className="invalid-feedback">{formErrors.password}</div>
+            )}
+          </div>
+
+          {/* Confirm Password */}
+          <div className="form-group">
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              onChange={handleChange}
+              className={`form-control ${
+                formErrors.confirmPassword && "is-invalid"
+              }`}
+            />
+            {formErrors.confirmPassword && (
+              <div className="invalid-feedback">
+                {formErrors.confirmPassword}
+              </div>
+            )}
+          </div>
+
+          {/* Referral Code */}
+          <div className="form-group">
+            <label htmlFor="referral">Referral Code</label>
+            <input
+              type="text"
+              id="referral"
+              name="referral"
+              onChange={handleChange}
+              className={`form-control ${formErrors.referral && "is-invalid"}`}
+            />
+            {formErrors.referral && (
+              <div className="invalid-feedback">{formErrors.referral}</div>
+            )}
+          </div>
+
+          {/* Username */}
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              onChange={handleChange}
+              className={`form-control ${formErrors.username && "is-invalid"}`}
+            />
+            {formErrors.username && (
+              <div className="invalid-feedback">{formErrors.username}</div>
+            )}
+          </div>
+
+          {/* Gender */}
+          <div className="form-group">
+            <label htmlFor="gender">Gender</label>
+            <select
+              id="gender"
+              name="gender"
+              onChange={handleChange}
+              className={`form-control ${formErrors.gender && "is-invalid"}`}
+            >
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+            {formErrors.gender && (
+              <div className="invalid-feedback">{formErrors.gender}</div>
+            )}
+          </div>
+
+          {/* National Identity Number */}
+          <div className="form-group">
+            <label htmlFor="nin">National Identity Number</label>
+            <input
+              type="text"
+              id="nin"
+              name="nin"
+              onChange={handleChange}
+              className={`form-control ${formErrors.nin && "is-invalid"}`}
+            />
+            {formErrors.nin && (
+              <div className="invalid-feedback">{formErrors.nin}</div>
+            )}
+          </div>
+
+          {/* Phone */}
+          <div className="form-group">
+            <label htmlFor="phone">Phone</label>
+            <input
+              type="text"
+              id="phone"
+              name="phone"
+              onChange={handleChange}
+              className={`form-control ${formErrors.phone && "is-invalid"}`}
+            />
+            {formErrors.phone && (
+              <div className="invalid-feedback">{formErrors.phone}</div>
+            )}
+          </div>
+
+          {/* General Error Message */}
+          {formErrors.general && (
+            <p className="error-message">{formErrors.general}</p>
+          )}
+
+          {/* Submit Button */}
+          <button type="submit" className="btn btn-primary" disabled={loading}>
+            {loading ? <Spinner animation="border" size="sm" /> : "Register"}
+          </button>
+
+          {/* Login Link */}
+          <p>
+            Already have an account? <Link to="/login">Login here</Link>
+          </p>
+        </form>
