@@ -1,13 +1,75 @@
-// Login.js
 import { useState } from "react";
 import AuthenticationUtility from "../Utils/AuthenticationUtility";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
-import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 import { useNavigate, Link } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
+import Swal from "sweetalert2"; // Import SweetAlert
+import styled from "styled-components";
+
+const StyledContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+`;
+
+const StyledFormContainer = styled.div`
+  width: 400px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+`;
+
+const StyledTitle = styled.h1`
+  text-align: center;
+  margin-bottom: 20px;
+`;
+
+const StyledForm = styled.form`
+  margin-top: 20px;
+`;
+
+const StyledInput = styled.input`
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+`;
+
+const ErrorMessage = styled.div`
+  margin-top: 5px;
+  font-size: 14px;
+  color: red;
+`;
+
+const FormFooter = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const ForgotPassword = styled.div`
+  font-size: 14px;
+`;
+
+const SubmitButton = styled.button`
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+`;
+
+const RegisterLink = styled.div`
+  margin-top: 15px;
+  text-align: center;
+`;
 
 const Login = () => {
   const [formData, setFormData] = useState({});
-  const { loading, login } = useState({});
+  const [loading, setLoading] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const { http } = AuthenticationUtility();
   const signIn = useSignIn();
@@ -22,8 +84,8 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-    // Validating user inputs
     if (!formData.username) {
       setFormErrors((form) => ({
         ...form,
@@ -36,12 +98,12 @@ const Login = () => {
         ...form,
         password: "Please provide your password",
       }));
+      setLoading(false);
       return;
     }
 
     try {
       const res = await http.post("/login", formData);
-
       const data = res.data;
 
       if (
@@ -55,151 +117,88 @@ const Login = () => {
           userState: data.user,
         })
       ) {
-        // Redirect or do-something
-        navigate("/dashboard");
+        Swal.fire({
+          icon: "success",
+          title: "Login successful",
+          showConfirmButton: false,
+          timer: 1500,
+        }).then(() => navigate("/dashboard"));
       } else {
-        // Throw error
         setFormErrors(data || {});
+        Swal.fire({
+          icon: "error",
+          title: "Login failed",
+          text: "Please check your credentials and try again.",
+        });
       }
     } catch (err) {
       setFormErrors(err?.response?.data || {});
+      Swal.fire({
+        icon: "error",
+        title: "Login failed",
+        text: "An error occurred. Please try again later.",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div style={styles.center}>
-      <div style={styles.loginForm}>
-        <h1>Login</h1>
-
-        <div style={styles.form}>
-          <form onSubmit={handleLogin}>
-            <label htmlFor="username">Username</label>
-            <br />
-            <input
-              style={styles.input}
-              size={43}
+    <StyledContainer>
+      <StyledFormContainer>
+        <StyledTitle>Login</StyledTitle>
+        <StyledForm onSubmit={handleLogin}>
+          <div className="mb-3">
+            <label htmlFor="username" className="form-label">
+              Username
+            </label>
+            <StyledInput
               type="text"
+              className={`form-control ${
+                formErrors.username ? "is-invalid" : ""
+              }`}
               id="username"
               name="username"
               onChange={handleChange}
-              className={formErrors.username ? "error" : ""}
             />
             {formErrors.username && (
-              <p style={styles.errorMessage}>{formErrors.username}</p>
+              <ErrorMessage>{formErrors.username}</ErrorMessage>
             )}
-            <label htmlFor="password">Password</label>
-            <br />
-            <input
-              style={styles.input}
-              size={43}
+          </div>
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">
+              Password
+            </label>
+            <StyledInput
               type="password"
+              className={`form-control ${
+                formErrors.password ? "is-invalid" : ""
+              }`}
               id="password"
               name="password"
               onChange={handleChange}
-              className={formErrors.password ? "error" : ""}
             />
             {formErrors.password && (
-              <p style={styles.errorMessage}>{formErrors.password}</p>
+              <ErrorMessage>{formErrors.password}</ErrorMessage>
             )}
-
-            <div style={styles.checkboxSection}>
-              <input type="checkbox" id="rememberMe" name="rememberMe" />
-              <label htmlFor="rememberMe">Remember Me</label>
-            </div>
-
-            <div style={styles.formFooter}>
-              <div style={styles.forgotPassword}>
-                <Link to="/forgot-password">Forgot Password?</Link>
-              </div>
-              <button style={styles.buttonCta} type="submit" disabled={loading}>
-                {loading ? "Logging in..." : "Login"}
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <div style={styles.registerLink}>
+          </div>
+          <FormFooter>
+            <ForgotPassword>
+              <Link to="/forgot-password">Forgot Password?</Link>
+            </ForgotPassword>
+            <SubmitButton type="submit" disabled={loading}>
+              {loading ? <Spinner animation="border" size="sm" /> : "Login"}
+            </SubmitButton>
+          </FormFooter>
+        </StyledForm>
+        <RegisterLink>
           <p>
             Don't have an account? <Link to="/register">Register here</Link>.
           </p>
-        </div>
-
-        <div style={styles.socialiteSection}>
-          {/* Add your socialite buttons here */}
-          <button style={styles.socialiteButton}>Google</button>
-          <button style={styles.socialiteButton}>Facebook</button>
-          {/* Add more socialite buttons as needed */}
-        </div>
-      </div>
-    </div>
+        </RegisterLink>
+      </StyledFormContainer>
+    </StyledContainer>
   );
-};
-
-const styles = {
-  center: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100vh",
-  },
-  loginForm: {
-    width: "300px",
-    padding: "20px",
-    border: "1px solid #ccc",
-    borderRadius: "5px",
-    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-  },
-  form: {
-    marginTop: "20px",
-  },
-  input: {
-    width: "100%",
-    padding: "8px",
-    marginBottom: "10px",
-    border: "1px solid #ccc",
-    borderRadius: "3px",
-  },
-  errorMessage: {
-    marginTop: "5px",
-    fontSize: "14px",
-    color: "red",
-  },
-  checkboxSection: {
-    display: "flex",
-    alignItems: "center",
-    marginBottom: "15px",
-  },
-  formFooter: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-  forgotPassword: {
-    fontSize: "14px",
-  },
-  buttonCta: {
-    backgroundColor: "#3498db",
-    color: "#fff",
-    padding: "10px",
-    border: "none",
-    borderRadius: "3px",
-    cursor: "pointer",
-  },
-  registerLink: {
-    marginTop: "15px",
-    textAlign: "center",
-  },
-  socialiteSection: {
-    marginTop: "20px",
-  },
-  socialiteButton: {
-    backgroundColor: "#2ecc71",
-    color: "#fff",
-    padding: "10px",
-    marginRight: "10px",
-    border: "none",
-    borderRadius: "3px",
-    cursor: "pointer",
-  },
 };
 
 export default Login;
