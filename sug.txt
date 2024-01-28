@@ -72,3 +72,187 @@ export default App;
 
 
 
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import {
+  FaTachometerAlt,
+  FaChartBar,
+  FaPhone,
+  FaWifi,
+  FaBolt,
+  FaTv,
+  FaArrowRight,
+  FaBars,
+} from "react-icons/fa";
+
+const Sidebar = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  return (
+    <div>
+      {/* Offcanvas Trigger Button */}
+      <button
+        className="btn btn-primary d-md-none"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasSidebar"
+        aria-controls="offcanvasSidebar"
+        onClick={toggleSidebar}
+      >
+        <FaBars />
+      </button>
+
+      {/* Offcanvas Sidebar */}
+      <div
+        className={`offcanvas offcanvas-start bg-primary text-white ${
+          sidebarOpen ? "show" : ""
+        }`}
+        tabIndex="-1"
+        id="offcanvasSidebar"
+        aria-labelledby="offcanvasSidebarLabel"
+      >
+        <div className="offcanvas-header">
+          <h5 className="offcanvas-title" id="offcanvasSidebarLabel">
+            Sidebar
+          </h5>
+          <button
+            type="button"
+            className="btn-close text-reset"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+            onClick={toggleSidebar}
+          ></button>
+        </div>
+        <div className="offcanvas-body">
+          {/* Sidebar Content */}
+          <ul className="navbar-nav">
+            {/* Your Sidebar Links */}
+            {/* Example: */}
+            <li className="nav-item">
+              <Link className="nav-link" to="/dashboard">
+                <FaTachometerAlt />
+                <span style={styles.navText}>Dashboard</span>
+              </Link>
+            </li>
+            {/* <ul className="navbar-nav"> */}
+              {/* Your Sidebar Links */}
+              <li className="nav-item">
+                <Link className="nav-link" to="/dashboard">
+                  <FaTachometerAlt />
+                  <span style={styles.navText}>Dashboard</span>
+                </Link>
+              </li>
+
+              {/* Add more sidebar links here */}
+              <li className="nav-item">
+                <Link className="nav-link" to="/performance">
+                  <FaChartBar />
+                  <span style={styles.navText}>Performance</span>
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link className="nav-link" to="/airtime">
+                  <FaPhone />
+                  <span style={styles.navText}>Airtime</span>
+                </Link>
+              </li>
+
+              {/* Add more links similarly */}
+            </ul>
+          {/* </ul> */}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const styles = {
+  navText: {
+    color: "white",
+    fontSize: "15px",
+    marginLeft: "10px",
+    marginRight: "10px",
+  },
+};
+
+export default Sidebar;
+
+<ul
+        id="accordionSidebar"
+        className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+      >
+        {/* Sidebar - Brand */}
+        <a
+          className="sidebar-brand d-flex align-items-center justify-content-center"
+          to="/dashboard"
+        >
+          <div className="sidebar-brand-icon rotate-n-15"></div>
+          <div className="sidebar-brand-text mx-3">
+            <img src="/logo.png" alt="logo" width="50" />
+          </div>
+        </a>
+        {/* Divider */}
+        <hr className="sidebar-divider my-0" />
+        {/* Nav Item - Dashboard */}
+        <br />
+        <div className="sidebar-heading">Quick view</div>
+        <br />
+
+        <li className="nav-item navhover">
+          <Link className="nav-link" to="/dashboard">
+            <FaTachometerAlt />
+            <span style={styles.navText}>Dashboard</span>
+          </Link>
+        </li>
+        <li className="nav-item navhover">
+          <Link className="nav-link" to="performance">
+            <FaChartBar />
+            <span style={styles.navText}>Transaction</span>
+          </Link>
+        </li>
+
+        <li className="nav-item navhover">
+          <Link className="nav-link collapsed" to="airtime">
+            <FaPhone />
+            <span style={styles.navText}>Airtime</span>
+          </Link>
+        </li>
+        <li className="nav-item navhover">
+          <Link className="nav-link collapsed" to="data">
+            <FaWifi />
+            <span style={styles.navText}>Data</span>
+          </Link>
+        </li>
+
+        <li className="nav-item navhover">
+          <Link className="nav-link collapsed" to="electricity">
+            <FaBolt />
+            <span style={styles.navText}>Electricity</span>
+          </Link>
+        </li>
+
+        <li className="nav-item navhover">
+          <Link className="nav-link collapsed" to="cabletv">
+            <FaTv />
+            <span style={styles.navText}>Cable Tv</span>
+          </Link>
+        </li>
+
+        <br />
+        <br />
+        <li className="nav-item navhover">
+          <Link className="nav-link collapsed" to="#">
+           <FaArrowRight />
+            <span style={styles.navText}>Logout</span>
+          </Link>
+        </li>
+
+        {/* Divider */}
+        <hr className="sidebar-divider d-none d-md-block" />
+        {/* Sidebar Toggler (Sidebar) */}
+      </ul>

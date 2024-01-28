@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import AuthenticationUtility from "./AuthenticationUtility";
 import Swal from "sweetalert2";
@@ -64,25 +64,44 @@ const AirtimePurchaseForm = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [network, setNetwork] = useState("mtn");
   const [amount, setAmount] = useState("");
-  const [showPinInput, setShowPinInput] = useState(false);
-  const [transactionPin, setTransactionPin] = useState("");
   const { http } = AuthenticationUtility();
 
   const handlePurchase = async (e) => {
     e.preventDefault();
 
-    // Validate input fields
     if (!phoneNumber || !network || !amount) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Please fill in all fields",
-      });
+      showAlert("Please fill in all fields", "error");
       return;
     }
 
-    // Show SweetAlert to input transaction pin
-    const { value: pin } = await Swal.fire({
+    const { value: pin } = await showPinInput();
+
+    if (pin) {
+      try {
+        const response = await http.post("/user/airtime/airtime-purchase", {
+          phone: phoneNumber,
+          amount: amount,
+          network: network,
+          transaction_pin: pin,
+        });
+        console.log(response.data);
+        showAlert("Airtime purchase successful!", "success");
+      } catch (err) {
+        handleRequestError(err);
+      }
+    }
+  };
+
+  const showAlert = (text, icon) => {
+    Swal.fire({
+      icon: icon,
+      title: icon === "error" ? "Error" : "Success",
+      text: text,
+    });
+  };
+
+  const showPinInput = async () => {
+    return Swal.fire({
       title: "Enter Transaction Pin",
       input: "password",
       inputPlaceholder: "Enter your transaction pin",
@@ -95,50 +114,11 @@ const AirtimePurchaseForm = () => {
       confirmButtonText: "Confirm",
       cancelButtonText: "Cancel",
     });
-
-    // Check if the user confirmed and entered a pin
-    if (pin) {
-      setTransactionPin(pin);
-      setShowPinInput(true);
-    }
   };
 
-  const handleConfirmPurchase = async () => {
-    // Validate transaction pin
-    if (!transactionPin) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Please enter your transaction pin",
-      });
-      return;
-    }
-
-    try {
-      const response = await http.post("/user/airtime/airtime-purchase", {
-        phone: phoneNumber,
-        amount: amount,
-        network: network,
-        transaction_pin: transactionPin,
-      });
-      const data = response.data;
-      console.log(data);
-
-      // Display success alert
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "Airtime purchase successful!",
-      });
-    } catch (err) {
-      // Display error alert
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: err.response?.data?.message || "An error occurred",
-      });
-      console.error(err);
-    }
+  const handleRequestError = (err) => {
+    showAlert(err.response?.data?.message || "An error occurred", "error");
+    console.error(err);
   };
 
   return (
@@ -165,6 +145,8 @@ const AirtimePurchaseForm = () => {
           >
             <option value="mtn">MTN</option>
             <option value="airtel">Airtel</option>
+            <option value="glo">Glo</option>
+
             {/* Add more networks as needed */}
           </select>
         </FormGroup>
@@ -179,25 +161,7 @@ const AirtimePurchaseForm = () => {
             required
           />
         </FormGroup>
-        {/* Conditionally render pin input based on showPinInput */}
-        {showPinInput && (
-          <FormGroup>
-            <label htmlFor="transactionPin">Transaction Pin:</label>
-            <input
-              type="password"
-              id="transactionPin"
-              value={transactionPin}
-              onChange={(e) => setTransactionPin(e.target.value)}
-              placeholder="Enter transaction pin"
-              required
-            />
-          </FormGroup>
-        )}
         <Button type="submit">Purchase Airtime</Button>
-        {/* Conditionally render Confirm Purchase button */}
-        {showPinInput && (
-          <Button onClick={handleConfirmPurchase}>Confirm Purchase</Button>
-        )}
       </Form>
     </Container>
   );

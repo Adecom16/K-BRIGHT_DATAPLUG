@@ -5,7 +5,17 @@ import Stat from "./../Minicomponents/Stat";
 import DataBuyForm from "./../../Utils/Data";
 import AuthenticationUtility from "../../Utils/AuthenticationUtility";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
-
+import { Link } from "react-router-dom";
+import {
+  FaTachometerAlt,
+  FaChartBar,
+  FaPhone,
+  FaWifi,
+  FaBolt,
+  FaTv,
+  FaArrowRight,
+  FaBars,
+} from "react-icons/fa";
 const Dashboard = () => {
   const { http, profile } = AuthenticationUtility();
   const auth = useAuthUser();
@@ -14,6 +24,8 @@ const Dashboard = () => {
 
   return (
     <div className="container">
+   <style dangerouslySetInnerHTML={{__html: "\n      .dashboard-menu {\n  margin-top: 20px;\n}\n\n.nav {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  justify-content: space-around;\n}\n\n.nav-item {\n  text-align: center;\n}\n\n.nav-link {\n  text-decoration: none;\n  color: #333;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.nav-link:hover {\n  background-color: #f0f0f0;\n  border-radius: 5px;\n}\n\n.nav-text {\n  margin-top: 5px;\n  font-size: 0.8rem;\n}\n\n.nav-link svg {\n  font-size: 1.5rem;\n}\n\n    " }} />
+
       <div className="row">
         <div className="col-md-6">
           <h6
@@ -66,7 +78,7 @@ const Dashboard = () => {
           <ApexChart />
         </div>
       </div>
-
+      {/* 
       <div className="row">
         <div className="col-md-6">
           <p style={{ color: "gray" }}>MONEY OUT LAST 30 DAYS</p>
@@ -159,6 +171,56 @@ const Dashboard = () => {
       <div className="container mt-5">
         <div className="">
           <Stat />
+        </div>
+      </div> */}
+
+      <div className="mt-5">
+        <div className="dashboard-menu">
+          <ul className="nav">
+            <li className="nav-item navhover">
+              <Link className="nav-link" to="/dashboard">
+                <FaTachometerAlt size={36} />{" "}
+                {/* Adjust the size of the icon */}
+                <span className="nav-text">Dashboard</span>
+              </Link>
+            </li>
+            <li className="nav-item navhover">
+              <Link className="nav-link" to="performance">
+                <FaChartBar size={36} />
+                <span className="nav-text">Transaction</span>
+              </Link>
+            </li>
+            <li className="nav-item navhover">
+              <Link className="nav-link collapsed" to="airtime">
+                <FaPhone size={36} />
+                <span className="nav-text">Airtime</span>
+              </Link>
+            </li>
+            <li className="nav-item navhover">
+              <Link className="nav-link collapsed" to="data">
+                <FaWifi size={36} />
+                <span className="nav-text">Data</span>
+              </Link>
+            </li>
+            <li className="nav-item navhover">
+              <Link className="nav-link collapsed" to="electricity">
+                <FaBolt size={36} />
+                <span className="nav-text">Electricity</span>
+              </Link>
+            </li>
+            <li className="nav-item navhover">
+              <Link className="nav-link collapsed" to="cabletv">
+                <FaTv size={36} />
+                <span className="nav-text">Cable Tv</span>
+              </Link>
+            </li>
+            <li className="nav-item navhover">
+              <Link className="nav-link collapsed" to="#">
+                <FaArrowRight size={36} />
+                <span className="nav-text">Logout</span>
+              </Link>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
