@@ -20,13 +20,12 @@ const Sidebar = () => {
 
   return (
     <div>
-     
-
-
       {/* Sidebar */}
       <ul
         id="accordionSidebar"
-        className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+        className={`navbar-nav bg-gradient-primary sidebar sidebar-dark accordion ${
+          sidebarOpen ? "toggled" : ""
+        }`}
       >
         {/* Sidebar - Brand */}
         <a
@@ -89,7 +88,7 @@ const Sidebar = () => {
         <br />
         <li className="nav-item navhover">
           <Link className="nav-link collapsed" to="#">
-           <FaArrowRight />
+            <FaArrowRight />
             <span style={styles.navText}>Logout</span>
           </Link>
         </li>

@@ -23,8 +23,8 @@ const Dashboard = () => {
   console.log(auth);
 
   return (
+
     <div className="container">
-   <style dangerouslySetInnerHTML={{__html: "\n      .dashboard-menu {\n  margin-top: 20px;\n}\n\n.nav {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  justify-content: space-around;\n}\n\n.nav-item {\n  text-align: center;\n}\n\n.nav-link {\n  text-decoration: none;\n  color: #333;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.nav-link:hover {\n  background-color: #f0f0f0;\n  border-radius: 5px;\n}\n\n.nav-text {\n  margin-top: 5px;\n  font-size: 0.8rem;\n}\n\n.nav-link svg {\n  font-size: 1.5rem;\n}\n\n    " }} />
 
       <div className="row">
         <div className="col-md-6">

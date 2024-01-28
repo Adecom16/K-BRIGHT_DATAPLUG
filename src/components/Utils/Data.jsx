@@ -146,7 +146,7 @@ const DataBuyForm = () => {
 
   return (
     <Container>
-      <Title>Data Buying Page</Title>
+      <Title>Data Buying </Title>
       <Form onSubmit={handleSubmit}>
         <FormGroup>
           <label htmlFor="phoneNumber">Phone Number:</label>

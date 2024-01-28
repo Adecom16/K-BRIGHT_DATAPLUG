@@ -10733,6 +10733,40 @@ a:focus {
   color: rgba(255, 255, 255, 0.5);
 }
 
+/* Add your responsive styles here */
+
+/* For example, to make the sidebar collapsible on smaller screens */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 3rem;
+    height: auto;
+  }
+
+  .sidebar.toggled {
+    width: 0 !important;
+    overflow: hidden;
+  }
+
+  .sidebar.toggled #sidebarToggle::after {
+    content: '\f105';
+  }
+
+  .sidebar.toggled .sidebar-card {
+    display: none;
+  }
+
+  .sidebar .nav-item .nav-link {
+    padding: 0.75rem 1rem;
+    width: 1.5rem;
+  }
+
+  .sidebar .nav-item .nav-link span {
+    font-size: 10px;
+    display: none;
+  }
+}
+
+
 .btn-circle {
   border-radius: 100%;
   height: 2.5rem;
@@ -10919,7 +10953,7 @@ form.user .btn-user {
   border-color: #fff;
 }
 
-.btn-google:not(:disabled):not(.disabled):active, .btn-google:not(:disabled):not(.disabled).active,
+/* .btn-google:not(:disabled):not(.disabled):active, .btn-google:not(:disabled):not(.disabled).active,
 .show > .btn-google.dropdown-toggle {
   color: #fff;
   background-color: #d62516;
@@ -11278,4 +11312,4 @@ footer.sticky-footer .copyright {
 
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
-}
+} */
